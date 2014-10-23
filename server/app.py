@@ -5,17 +5,17 @@ from subprocess import check_output
 import flask
 from flask import request
 from os import environ
+import string
+import random
 
 app = flask.Flask(__name__)
 app.debug = True
 
+
 db = shelve.open("shorten.db")
 
 
-###
-# Home Resource:
-# Only supports the GET method, returns a homepage represented as HTML
-###
+@app.route('/')
 @app.route('/home', methods=['GET'])
 def home():
     """Builds a template based on a GET request, with some default
@@ -26,6 +26,39 @@ def home():
             'home.html',
             title=index_title,
             name=hello_name)
+
+
+def create_short_url(long_url):
+    new_url = ''.join(random.sample(string.letters, 5))
+    baseurl = 'http://people.ischool.berkeley.edu/'
+    return baseurl + new_url + '.html'
+
+
+@app.route('/shorts', methods=['POST'])
+def shorts():
+    long_url = request.form['long-url']
+    if long_url in db:
+        print 'url in db'
+        print db.values
+        return db[long_url]
+    else:
+        db[long_url] = create_short_url(long_url)
+        print "url not in db"
+        print db.values
+        return db[request.form['long-url']]
+    print db.values
+    
+
+    """
+    if long-url exits:
+        return db[long_url] # fetch short url
+    else:
+        short_url = create_short_url(long_url)
+        db[long_url] = short_url
+        return db[long_url]
+    """
+
+
 
 
 ###
@@ -80,4 +113,5 @@ def i253():
 
 
 if __name__ == "__main__":
-    app.run(port=int(environ['FLASK_PORT']))
+    app.run()
+    #app.run(port=int(environ['FLASK_PORT']))
