@@ -113,5 +113,5 @@ def i253():
 
 
 if __name__ == "__main__":
-    app.run()
-    #app.run(port=int(environ['FLASK_PORT']))
+    #app.run()
+    app.run(port=int(environ['FLASK_PORT']))
