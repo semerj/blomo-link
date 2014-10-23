@@ -20,18 +20,13 @@ db = shelve.open("shorten.db")
 def home():
     """Builds a template based on a GET request, with some default
     arguements"""
-    index_title = request.args.get("title", "i253")
-    hello_name = request.args.get("name", "Jim")
-    return flask.render_template(
-            'home.html',
-            title=index_title,
-            name=hello_name)
+    return flask.render_template('home.html')
 
 
 def create_short_url(long_url):
     new_url = ''.join(random.sample(string.letters, 5))
-    baseurl = 'http://people.ischool.berkeley.edu/'
-    return baseurl + new_url + '.html'
+    base_url = 'http://people.ischool.berkeley.edu/'
+    return base_url + new_url + '.html'
 
 
 @app.route('/shorts', methods=['POST'])
@@ -39,26 +34,14 @@ def shorts():
     long_url = request.form['long-url']
     if long_url in db:
         print 'url in db'
-        print db.values
+        #print db.values
         return db[long_url]
     else:
         db[long_url] = create_short_url(long_url)
         print "url not in db"
-        print db.values
+        #print db.values
         return db[request.form['long-url']]
-    print db.values
-    
-
-    """
-    if long-url exits:
-        return db[long_url] # fetch short url
-    else:
-        short_url = create_short_url(long_url)
-        db[long_url] = short_url
-        return db[long_url]
-    """
-
-
+    #print db.values
 
 
 ###
