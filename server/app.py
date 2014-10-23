@@ -15,6 +15,12 @@ app.debug = True
 db = shelve.open("shorten.db")
 
 
+def create_short_url(long_url):
+    new_url = ''.join(random.sample(string.letters, 5))
+    base_url = 'http://people.ischool.berkeley.edu/~jsemer/'
+    return base_url + new_url + '.html'
+
+
 @app.route('/')
 @app.route('/home', methods=['GET'])
 def home():
@@ -23,15 +29,9 @@ def home():
     return flask.render_template('home.html')
 
 
-def create_short_url(long_url):
-    new_url = ''.join(random.sample(string.letters, 5))
-    base_url = 'http://people.ischool.berkeley.edu/'
-    return base_url + new_url + '.html'
-
-
 @app.route('/shorts', methods=['POST'])
 def shorts():
-    long_url = request.form['long-url']
+    long_url = request.form['long-url']     # form id from html
     if long_url in db:
         print 'url in db'
         #print db.values
