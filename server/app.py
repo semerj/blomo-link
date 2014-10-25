@@ -40,7 +40,7 @@ def home():
     return flask.render_template('home.html')
 
 
-@app.route('/shorts', methods=['POST'])
+@app.route('/server/shorts', methods=['POST'])
 def shorts():
     long_url = request.form['long-url']     # form id from html
     if long_url in db:
