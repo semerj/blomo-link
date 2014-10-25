@@ -44,14 +44,14 @@ def home():
 def shorts():
     long_url = request.form['long-url']     # form id from html
     if long_url in db:
-        return return_html(db[long_url])
-        #print 'url in db'
+        #return return_html(db[long_url])
+        return 'url in db'
         #print db.values
         #return db[long_url]
     else:
         db[long_url] = create_short_url(long_url)
-        return return_html(db[request.form['long-url']])
-        #print "url not in db"
+        #return return_html(db[request.form['long-url']])
+        return_html "url not in db"
         #print db.values
         #return db[request.form['long-url']]
     #print db.values
@@ -109,5 +109,5 @@ def i253():
 
 
 if __name__ == "__main__":
-    #app.run()
-    app.run(port=int(environ['FLASK_PORT']))
+    app.run()
+    #app.run(port=int(environ['FLASK_PORT']))
