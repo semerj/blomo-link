@@ -44,14 +44,14 @@ def home():
 def shorts():
     long_url = request.form['long-url']     # form id from html
     if long_url in db:
-        #return return_html(db[long_url])
-        return 'url in db'
+        return return_html(db[long_url])
+        #return 'url in db'
         #print db.values
         #return db[long_url]
     else:
         db[long_url] = create_short_url(long_url)
-        #return return_html(db[request.form['long-url']])
-        return_html "url not in db"
+        return return_html(db[request.form['long-url']])
+        #return "url not in db"
         #print db.values
         #return db[request.form['long-url']]
     #print db.values
