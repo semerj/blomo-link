@@ -20,6 +20,17 @@ def create_short_url(long_url):
     base_url = 'http://people.ischool.berkeley.edu/~jsemer/'
     return base_url + new_url + '.html'
 
+def return_html(variable):
+    return '''
+<html>
+  <head>
+    <title>bitly-clone</title>
+  </head>
+  <body>
+    <p>Here is your link: ''' + variable + '''</p>
+  </body>
+</html>
+'''
 
 @app.route('/')
 @app.route('/home', methods=['GET'])
@@ -33,14 +44,16 @@ def home():
 def shorts():
     long_url = request.form['long-url']     # form id from html
     if long_url in db:
-        print 'url in db'
+        return return_html(db[long_url])
+        #print 'url in db'
         #print db.values
-        return db[long_url]
+        #return db[long_url]
     else:
         db[long_url] = create_short_url(long_url)
-        print "url not in db"
+        return return_html(db[request.form['long-url']])
+        #print "url not in db"
         #print db.values
-        return db[request.form['long-url']]
+        #return db[request.form['long-url']]
     #print db.values
 
 
