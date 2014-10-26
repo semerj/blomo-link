@@ -12,22 +12,28 @@ app = flask.Flask(__name__)
 app.debug = True
 db = shelve.open("shorten.db")
 
+
 @app.route('/', methods=['GET'])
 def home():
-    """Builds a template based on a GET request, with some default
-    arguements"""
     return flask.render_template('home.html')
 
-@app.route('/server/shorts', methods=['POST'])
+
+@app.route('/shorts', methods=['POST'])
 def shorts():
     long_url = request.form['long-url']
-    short_url = request.form['short-url']
+    short = request.form['short-url']
     if long_url in db:
         return flask.render_template('new_url.html', new_url=db[long_url])
     else:
-        db[long_url] = short_url
-        return flask.render_template('new_url.html', new_url=db[long_url])
+        db[short] = long_url
+        return flask.render_template('new_url.html', new_url=short)
+
+
+@app.route('/shorts/<url>', methods=['GET'])
+def shorts_redirect(url):
+    return flask.redirect(db[url])
+
 
 if __name__ == "__main__":
-    app.run()
-    #app.run(port=int(environ['FLASK_PORT']))
+    #app.run()
+    app.run(port=int(environ['FLASK_PORT']))
