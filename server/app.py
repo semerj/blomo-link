@@ -3,7 +3,7 @@
 import shelve
 from subprocess import check_output
 import flask
-from flask import request
+from flask import request, url_for
 from os import environ
 import string
 import random
@@ -40,7 +40,29 @@ def home():
     return flask.render_template('home.html')
 
 
-@app.route('/server/shorts', methods=['POST'])
+@app.route('/shorts', methods=['POST'])
+def shorts():
+    long_url = request.form['long-url']
+    short_url = request.form['short-url']
+    if long_url in db:
+        return flask.render_template('home.html', new_url=db[long_url])
+    else:
+        db[long_url] = short_url
+        return flask.render_template('home.html', new_url=db[long_url])
+
+'''
+@app.route('/shorts', methods=['POST'])
+def shorts():
+    long_url = request.form['long-url']
+    if long_url in db:
+        return flask.render_template('home.html', short_url=db[long_url])
+    else:
+        db[long_url] = create_short_url(long_url)
+        return flask.render_template('home.html', short_url=db[request.form['long-url']])
+'''
+
+'''
+@app.route('/shorts', methods=['POST'])
 def shorts():
     long_url = request.form['long-url']     # form id from html
     if long_url in db:
@@ -55,7 +77,7 @@ def shorts():
         #print db.values
         #return db[request.form['long-url']]
     #print db.values
-
+'''
 
 ###
 # Wiki Resource:
