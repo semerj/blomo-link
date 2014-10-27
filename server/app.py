@@ -20,8 +20,8 @@ def home():
 
 @app.route('/shorts', methods=['POST'])
 def shorts():
-    long_url = request.form['long-url']
-    short = request.form['short-url']
+    long_url = request.form['long-url'].encode('utf-8')
+    short = request.form['short-url'].encode('utf-8')
     if long_url in db:
         return flask.render_template('new_url.html', new_url=db[long_url])
     else:
@@ -31,6 +31,7 @@ def shorts():
 
 @app.route('/shorts/<url>', methods=['GET'])
 def shorts_redirect(url):
+    url = url.encode('utf-8')
     return flask.redirect(db[url])
 
 
