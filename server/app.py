@@ -35,5 +35,5 @@ def shorts_redirect(url):
 
 
 if __name__ == "__main__":
-    #app.run()
-    app.run(port=int(environ['FLASK_PORT']))
+    app.run()
+    #app.run(port=int(environ['FLASK_PORT']))
