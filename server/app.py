@@ -27,15 +27,15 @@ def home():
 def shorts():
     long_url = request.form['long-url'].encode('utf-8')
     short = request.form['short-url'].encode('utf-8')
-    if long_url in db:
-        return flask.render_template('new_url.html', new_url=db[long_url])
+    if short in db:
+        return flask.render_template('home.html', taken_url="Short url taken. Please try again.")
     else:
         if short:
             db[short] = long_url
         else:
             short = randomize()
             db[short] = long_url
-        return flask.render_template('new_url.html', new_url=short)
+        return flask.render_template('home.html', new_url=short)
 
 
 @app.route('/shorts/<url>', methods=['GET'])
