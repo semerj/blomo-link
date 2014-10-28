@@ -13,6 +13,11 @@ app.debug = True
 db = shelve.open("shorten.db")
 
 
+def randomize():
+    url = ''.join(random.sample(string.letters, 5))
+    return url
+
+
 @app.route('/', methods=['GET'])
 def home():
     return flask.render_template('home.html')
@@ -25,7 +30,11 @@ def shorts():
     if long_url in db:
         return flask.render_template('new_url.html', new_url=db[long_url])
     else:
-        db[short] = long_url
+        if short:
+            db[short] = long_url
+        else:
+            short = randomize()
+            db[short] = long_url
         return flask.render_template('new_url.html', new_url=short)
 
 
@@ -36,5 +45,5 @@ def shorts_redirect(url):
 
 
 if __name__ == "__main__":
-    app.run()
-    #app.run(port=int(environ['FLASK_PORT']))
+    #app.run()
+    app.run(port=int(environ['FLASK_PORT']))
