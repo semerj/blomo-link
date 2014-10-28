@@ -39,5 +39,28 @@
 		</form>
 		<br>
 		<script src="http://netdna.bootstrapcdn.com/bootstrap/3.0.3/js/bootstrap.min.js"></script>
+
+		<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+		<script>
+
+			function validate() {
+				var str = $("#long-url").val(); 
+				var n = str.search("^https?://.*");
+			
+				var a1= $("#long-url").val();
+				if ((a1 == "") or (n == -1)){
+					$('#input_1').focus();
+					alert("Please provide a valid URL.");
+				}
+			}
+	
+			$(document).ready(function() {
+				$('#long-url').focus();
+				$("#submitButton").click(function(){
+					validate();				
+				});
+			});
+				
+        </script>
 	</body>
 </html>
