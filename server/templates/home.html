@@ -1,48 +1,43 @@
-<!DOCTYPE html>
-<html lang="en-us">
-	
-
-	<head>
-		<meta charset="utf-8">
-			<link rel="stylesheet" href="stylesheet.css">
-			<link href="http://bootswatch.com/cosmo/bootstrap.min.css" rel="stylesheet" type="text/css" media="all">
-	</head>
-	
-	<body>
-		<div class="container">
-			<h1>Welcome to the Magic URL Shortener!</h1>
-			<h4>Studies show that shorter links drive web traffic.</h4>
-			<img src="http://www.eurweb.com/wp-content/uploads/2014/10/Tom-and-Jerry-Kids-Wallpapers.jpg" alt="tom-and-jerry" style="width:304px;height:228px">
-			<h3>Services we offer:</h3>
-			<div>
-				<p>URL shortening</p>
-				<p>Traffice analysis</p>
-				<p>Easter eggs</p>
-			</div>
-		
-			<form>
-				<div>
-					<label for="long-url">Enter the URL to shorten:</label></br>
-					<input type="text" id="long-url">
-				</div>
-				<br>
-				<div>
-					<button formmethod="get" type="submit">Shorten!</button>
-				</div>
-				<br>
-				<div>
-					<label for="long-url">Here is your new URL:</label></br>
-					<input type="text" id="short-url">
-				</div>
-				<br>
-				
-			</form>
-		</div>
-		<br>
-		<br>
-		<br>
-		<script src="http://netdna.bootstrapcdn.com/bootstrap/3.0.3/js/bootstrap.min.js"></script>
-	</body>
-</html>
-
-
+<!DOCTYPE html>
+<html lang="en-us">
+	<head>
+		<title>bitly-clone</title>
+		<meta charset="utf-8">
+		<link rel="stylesheet" type="text/css" href="static/css/stylesheet.css">
+		<link rel="stylesheet" type="text/css" href="http://bootswatch.com/cosmo/bootstrap.min.css" media="all">
+	</head>
+	<body>
+		<div class="container">
+			<h1>Welcome to the Magic URL Shortener!</h1>
+			<h4>Studies show that shorter links drive web traffic.</h4>
+			<img src="http://www.eurweb.com/wp-content/uploads/2014/10/Tom-and-Jerry-Kids-Wallpapers.jpg" alt="tom-and-jerry" style="width:304px;height:228px">
+			<h3>Services we offer:</h3>
+			<div>
+				<p>URL shortening</p>
+				<p>Traffic analysis</p>
+				<p>Easter eggs</p>
+		</div>
+		<form action='/~jsemer/server/shorts' method='POST'>
+			<div>
+				<label for="long-url">Enter the URL to shorten:</label></br>
+				<input type="text" name='long-url' id="long-url">
+			</div>
+			<br>
+			<div>
+				<label for="short-url">Enter the shortened version:</label></br>
+				<input type="text" name='short-url' id="short-url">
+			</div>
+			<br>
+			<div>
+				<button type="submit">Shorten!</button>
+			</div>
+			<br>
+			<a href="/~jsemer/server/shorts/{{ new_url }}">{{ new_url }}</a>
+			<br>
+			<p>{{ taken_url }}</p>
+			<br>
+		</form>
+		<br>
+		<script src="http://netdna.bootstrapcdn.com/bootstrap/3.0.3/js/bootstrap.min.js"></script>
+	</body>
+</html>
