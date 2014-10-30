@@ -70,8 +70,11 @@ def shorts():
 
 @app.route('/shorts/<url>', methods=['GET'])
 def shorts_redirect(url):
-    url = url.encode('utf-8')
-    return flask.redirect(db[url])
+    if url.encode('utf-8') in db:
+        url = url.encode('utf-8')
+        return flask.redirect(db[url])
+    else:
+        return flask.render_template('404.html'), 404
 
 
 if __name__ == "__main__":
