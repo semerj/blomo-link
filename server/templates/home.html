@@ -21,7 +21,7 @@
 			</div>
 		</div>
 		<!-- if want to disable post, add onsubmit ="return false" -->
-		<form class= "container" action='/~jsemer/server/shorts' method='POST'>
+		<form class="container" action='/~jsemer/server/shorts' method='POST'>
 			<div>
 				<label for="long-url">Enter the URL to shorten:</label>
 				<input type="text" name='long-url' class="long-input" id="long-url">
@@ -36,7 +36,7 @@
 				<button id="submitButton" style="display: none;" type="submit">Shorten!</button>
 			</div>
 			<br>
-			<a href="/~jsemer/server/shorts">{{ new_url }}</a>
+			<a href="/~jsemer/server/shorts/{{ new_url }}">{{ new_url }}</a>
 			<br>
 			<p>{{ taken_url }}</p>
 			<br>
