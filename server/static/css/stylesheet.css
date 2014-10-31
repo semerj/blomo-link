@@ -4,3 +4,17 @@
   margin-left: auto;
   margin-right: auto;
 }
+
+.tom-img {
+	width:304px;
+}
+
+.short-input {
+	background: #F7F6FF;
+	color: #000;
+}
+
+.long-input {
+	background: #F7F6FF;
+	color: #C7C7C7;
+}

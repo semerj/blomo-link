@@ -12,7 +12,7 @@
 		<div class="container">
 			<h1>Welcome to the Magic URL Shortener!</h1>
 			<h4>Studies show that shorter links drive web traffic.</h4>
-			<img src="http://www.eurweb.com/wp-content/uploads/2014/10/Tom-and-Jerry-Kids-Wallpapers.jpg" alt="tom-and-jerry" style="width:304px;height:228px">
+			<img src="http://www.eurweb.com/wp-content/uploads/2014/10/Tom-and-Jerry-Kids-Wallpapers.jpg" alt="tom-and-jerry" class="tom-img">
 			<h3>Services we offer:</h3>
 			<div>
 				<p>URL shortening</p>
@@ -56,13 +56,24 @@
 			var inputLEN = $("#long-url").val().length;
 			var onlyAlpha = /^[A-Za-z]+$/;
 			var a1= $("#short-url").val();
-			console.log(inputLEN);
+			var numTest = a1.match(onlyAlpha);
+			console.log (numTest);
 			if (inputLEN != 0 && a1.match(onlyAlpha)) {
   				$("#submitButton").show();
   			}
-  			else {
+  			else if (numTest == null) {
   				$("#submitButton").hide();
-  				alert("You can only use letters for the shortened URL");
+  				alert("I need letters and only letters for the shortened URL");
+  			}
+			});
+		$( "#long-url" ).change(function() {
+			var inputLEN = $("#long-url").val().length;
+			var onlyAlpha = /^[A-Za-z]+$/;
+			var a1= $("#short-url").val();
+			var numTest = a1.match(onlyAlpha);
+			console.log (numTest);
+			if (inputLEN != 0 && a1.match(onlyAlpha)) {
+  				$("#submitButton").show();
   			}
 			});
 		
