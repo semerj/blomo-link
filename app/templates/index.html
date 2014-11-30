@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <h1>Welcome to blomo.link!</h1>
+	<form class="container" action='/shorts' method='POST'>
+		<div>
+			<label for="long-url">Enter the URL to shorten:</label>
+			<input type="text" name='long-url' class="long-input" id="long-url">
+		</div>
+		<br>
+		<div>
+			<label for="short-url">Enter the shortened version:</label>
+			<input type="text" name='short-url' class="short-input" id="short-url">
+		</div>
+		<br>
+		<div>
+			<button id="submitButton" type="submit">Shorten!</button>
+		</div>
+		<br>
+		<a href="/shorts/{{ new_url }}">{{ new_url }}</a>
+		<br>
+		<p>{{ taken_url }}</p>
+		<br>
+	</form>
+{% endblock %}
