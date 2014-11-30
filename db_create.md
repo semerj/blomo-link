@@ -11,7 +11,7 @@ mysql> quit;
 ### Assign Database to App
 ```bash
 # Set environment variable
-$ DATABASE_URL=mysql://apps:apps@localhost/apps ./db_create.py
+$ DATABASE_URL=mysql://apps:password@localhost/apps ./db_create.py
 ```
 
 ### Start MySQL Locally
