@@ -13,7 +13,3 @@ login_manager.init_app(app)
 login_manager.login_view = 'login'
 
 from app import views, models
-
-#from models import User
-#db_adapter = SQLAlchemyAdapter(db, User) 
-#user_manager = UserManager(db_adapter, app)

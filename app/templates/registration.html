@@ -2,12 +2,12 @@
 
 {% block content %}
   <h1>Registration</h1>
-  <form action="" method="post" name="registration">
+  <form action="" method="POST" name="registration">
   	{{ form.hidden_tag() }}
       <p>
-          username:<br>{{ form.username(size=20) }}<br>
-          email:<br>{{ form.email(size=20) }}<br>
-          password:<br>{{ form.password(size=20) }}<br>
+        username:<br>{{ form.username(size=20) }}<br>
+        password:<br>{{ form.password(size=20) }}<br>
+		email:<br>{{ form.email(size=20) }}<br>
       </p>
       <p><input type="submit" value="Sign In"></p>
   </form>
