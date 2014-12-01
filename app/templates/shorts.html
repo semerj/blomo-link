@@ -1,28 +1,7 @@
 {% extends "base.html" %}
-<!--
-{% block content %}
-	<div>Your shortened link is:<br>
-		<a href={{ shorturl }}>{{ shorturl }}</a>
-	</div>
-{% endblock %}
--->
 
 {% block content %}
-  <h1>Welcome to blomo.link!</h1>
-  <form action="/shorts" method="post" name="shorten">
-      {{ form.hidden_tag() }}
-      <p>
-          Enter the URL to shorten:<br>
-          {{ form.longurl(size=80) }}<br>
-          {% for error in form.longurl.errors %}
-            <span style="color: red;">{{ error }}</span>
-          {% endfor %}<br>
-          Enter shortened link:<br>
-          {{ form.shorturl(size=20) }}<br>
-          {% for error in form.shorturl.errors %}
-            <span style="color: red;">{{ error }}</span>
-          {% endfor %}<br>
-      </p>
-      <p><input type="submit" value="Shorten!"></p>
-  </form>
+	<div>Your shortened link is:<br>
+		{{ form.shorturl }}
+	</div>
 {% endblock %}
