@@ -1,9 +1,12 @@
 from flask import render_template, flash, redirect, session, url_for, request, g, abort
 from flask.ext.login import login_user, logout_user, current_user, login_required
-#from flask import Flask
 from app import app, db, login_manager
 from forms import LoginForm, RegistrationForm, ShortenForm
 from models import User, Link
+
+
+linkurl = 'http://localhost:5000/s/'
+
 
 @app.route('/')
 @app.route('/index', methods=['GET'])
@@ -11,10 +14,12 @@ def index():
     form = ShortenForm()
     return render_template('index.html', form=form)
 
+
 @login_manager.user_loader
 def load_user(id):
     '''loads a user from the database'''
     return User.query.get(int(id))
+
 
 @app.route("/registration", methods=["GET", "POST"])
 def register():
@@ -29,6 +34,7 @@ def register():
         db.session.commit()
         flash('User successfully registered')
         return redirect(url_for('login'))
+
 
 @app.route("/login", methods=["GET", "POST"])
 def login():
@@ -60,48 +66,63 @@ def login():
         #else:
         #    return render_template("login.html", form=form)
 
+
 @app.route('/logout')
 def logout():
     logout_user()
     return redirect(url_for('index'))
 
+
 @app.before_request
 def before_request():
     g.user = current_user
 
-@app.route('/shorts', methods=['POST'])
-def shorts():
-    form = ShortenForm()
-    link = Link(request.form['longurl'], request.form['shorturl'])
-    db.session.add(link)
-    db.session.commit()
-    flash('Link successfully registered')
-    return render_template('shorts.html', form=form)
-    #return redirect(url_for('user'))
 
-@app.route('/shorts/<url>', methods=['GET'])
-def shorts_redirect(url):
-    shorturl = Link.query.filter_by(shorturl=url).first()
-    if shorturl == None:
-        flash('Link not found') #return abort(404)
+@app.route('/s', methods=['POST', 'GET'])
+def shorts():
+    if request.method == 'POST':
+        form = ShortenForm()
+        link = Link(request.form['longurl'], request.form['shorturl'])
+        if link:
+            link.user = g.user
+            db.session.add(link)
+            db.session.commit()
+            flash('Link successfully registered')
+            return render_template('shorts.html', shorturl=linkurl + link.shorturl)
+        else:
+            return redirect(url_for('index'))
+        #return redirect(url_for('user'))
+    elif request.method == 'GET':
         return redirect(url_for('index'))
 
-    return redirect(shorturl.longurl)
-    #return render_template('shorts.html', shorturl='http://localhost:5000/shorts/'+ shorturl.shorturl)
+
+@app.route('/s/<url>', methods=['GET'])
+def shorts_redirect(url):
+    if request.method == 'GET':
+        shorturl = Link.query.filter_by(shorturl=url).first()
+        if shorturl == None:
+            flash('Link not found') #return abort(404)
+            return redirect(url_for('index'))
+
+        return redirect(shorturl.longurl)
+
+
+@app.route('/user')
+def user():
+    return redirect(url_for('index'))
+
 
 @app.route('/user/<username>')
 @login_required
-def user(username):
-    user = User.query.filter_by(username=username).first()
-    #user = g.user
+def profile(username):
+    #user = User.query.filter_by(username=username).first()
+    user = User.query.filter_by(id=g.user.id).first()
     if user == None:
         flash('User %s not found.' % username)
         return redirect(url_for('index'))
-
     links = Link.query.join(User, (User.id == Link.user_id)).\
         filter(User.username == user.username).\
         order_by(Link.timestamp.desc())
-
     return render_template("user.html",
                            title='Home',
                            user=user,
