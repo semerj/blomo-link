@@ -5,11 +5,18 @@ import datetime
 class User(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(64), index=True, unique=True)
-    #password = db.Column(db.String(255), nullable=False, default='')
+    password = db.Column(db.String(255), nullable=False, default='password')
     #reset_password_token = db.Column(db.String(100), nullable=False, default='')
     email = db.Column(db.String(120), index=True, unique=True)
     timestamp = db.Column(db.DateTime, default=datetime.datetime.utcnow)
     links = db.relationship('Link', backref='author', lazy='dynamic')
+    #active = db.Column('is_active', db.Boolean(), nullable=False, server_default='0')
+
+    def __init__(self, username, password, email):
+        self.username = username
+        self.password = password
+        self.email = email
+        self.timestamp = datetime.datetime.utcnow()
 
     def is_authenticated(self):
         '''Return True if the user is authenticated.'''
@@ -37,36 +44,14 @@ class Link(db.Model):
     timestamp = db.Column(db.DateTime())
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
 
+    def __init__(self, longurl, shorturl):
+        self.longurl = longurl
+        self.shorturl = shorturl
+        self.timestamp = datetime.datetime.utcnow()
+
     def __repr__(self):
         return '<long %r, short %r>' % (self.longurl, self.shorturl)
-'''
 
-# http://pythonhosted.org/Flask-User/data_models.html#all-in-one-user-datamodel
-# Define User model. Make sure to add flask.ext.user UserMixin !!!
-class User(db.Model, UserMixin):
-    id = db.Column(db.Integer, primary_key=True)
-
-    # User Authentication information
-    username = db.Column(db.String(50), nullable=False, unique=True)
-    password = db.Column(db.String(255), nullable=False, default='')
-    reset_password_token = db.Column(db.String(100), nullable=False, default='')
-
-    # User Email information
-    email = db.Column(db.String(255), nullable=False, unique=True)
-    confirmed_at = db.Column(db.DateTime())
-
-    # User information
-    is_enabled = db.Column(db.Boolean(), nullable=False, default=False)
-    first_name = db.Column(db.String(50), nullable=False, default='')
-    last_name = db.Column(db.String(50), nullable=False, default='')
-
-    def is_active(self):
-        return self.is_enabled
-
-# Setup Flask-User
-db_adapter = SQLAlchemyAdapter(db, User)        # Register the User model
-user_manager = UserManager(db_adapter, app)     # Initialize Flask-User
-'''
 
 '''
 # https://blog.openshift.com/use-flask-login-to-add-user-authentication-to-your-python-application/

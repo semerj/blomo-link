@@ -1,4 +1,5 @@
 from flask.ext.wtf import Form
+#from flask.ext.wtf import TextField, TextAreaField, SubmitField, validators, ValidationError, PasswordField
 from wtforms import StringField, BooleanField
 from wtforms.validators import DataRequired
 
@@ -7,29 +8,16 @@ class LoginForm(Form):
     password = StringField('password', validators=[DataRequired()])
     remember_me = BooleanField('remember_me', default=False)
 
-
-class ShortenFrom(Form):
+class ShortenForm(Form):
     longurl = StringField('longurl', validators=[DataRequired()])
-    shorturl = StringField('short', validators=[DataRequired()])
+    shorturl = StringField('shorturl', validators=[DataRequired()])
+
+class RegistrationForm(Form):
+    username = StringField('username', validators=[DataRequired()])
+    email = StringField('email', validators=[DataRequired()])
+    password = StringField('password', validators=[DataRequired()])
 
 '''
-from flask.ext.wtf import Form, TextField, TextAreaField, SubmitField, validators, ValidationError, PasswordField
-from models import db, User
-
-
-class SignupForm(Form):
-    username = TextField("Username", [
-        validators.Required("Please enter your username.")
-        ])
-    email = TextField("Email", [
-        validators.Required("Please enter your email address."),
-        validators.Email("Please enter your email address.")
-        ])
-    password = PasswordField('Password', [
-        validators.Required("Please enter a password.")
-        ])
-    submit = SubmitField("Create account")
-
     def __init__(self, *args, **kwargs):
         Form.__init__(self, *args, **kwargs)
 
