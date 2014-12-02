@@ -89,6 +89,7 @@ def before_request():
     g.user = current_user
 
 
+@app.route('/s/')
 @app.route('/s', methods=['POST', 'GET'])
 def shorts():
     form = ShortenForm()
