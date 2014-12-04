@@ -53,3 +53,18 @@ class Link(db.Model):
 
     def __repr__(self):
         return '<long %r, short %r>' % (self.longurl, self.shorturl)
+
+
+class Click(db.Model):
+    __tablename__ = "click"
+    id = db.Column(db.Integer, primary_key = True)
+    shorturl = db.Column(db.String(140), db.ForeignKey('link.shorturl'))
+    timestamp = db.Column(db.DateTime())
+
+    def __init__(self, shorturl):
+        self.shorturl = shorturl
+        self.timestamp = datetime.datetime.utcnow()
+
+    def __repr(self):
+        return '<short %r, time %r>' % (self.shorturl, self.timestamp)
+
