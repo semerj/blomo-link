@@ -3,12 +3,18 @@
 {% block content %}
   <h1>Sign In</h1>
   <form action="" method="POST" name="login">
-      {{ form.hidden_tag() }}
-      <p>
-          username:<br>{{ form.username(size=20) }}<br>
-          password:<br>{{ form.password(size=20) }}<br>
-      </p>
+  {{ form.hidden_tag() }}
+    <div>
+    <div>{{ form.username.label }}: {{ form.username(size=20) }}</div>
+      {% if form.username.errors %}
+      <ul class="errors" style="color: red;">{% for error in form.username.errors %}<li>{{ error }}</li>{% endfor %}</ul>
+      {% endif %}
+      <div>{{ form.password.label }}: {{ form.password(size=20) }}</div>
+      {% if form.password.errors %}
+      <ul class="errors" style="color: red;">{% for error in form.password.errors %}<li>{{ error }}</li>{% endfor %}</ul>
+      {% endif %}
       <p>{{ form.remember_me }} Remember Me</p>
       <p><input type="submit" value="Sign In"></p>
+    </div>
   </form>
 {% endblock %}

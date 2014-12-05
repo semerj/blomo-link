@@ -6,9 +6,9 @@ class User(db.Model):
     __tablename__ = "user"
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(64), index=True, unique=True)
-    password = db.Column(db.String(255), nullable=False, default='password')
+    password = db.Column(db.String(255), nullable=False, default='')
     #reset_password_token = db.Column(db.String(100), nullable=False, default='')
-    email = db.Column(db.String(120), index=True, unique=True)
+    email = db.Column(db.String(120), index=True, unique=False)
     timestamp = db.Column(db.DateTime, default=datetime.datetime.utcnow)
     links = db.relationship('Link', backref='user', lazy='dynamic')
     #active = db.Column('is_active', db.Boolean(), nullable=False, server_default='0')

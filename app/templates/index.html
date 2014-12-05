@@ -1,12 +1,19 @@
 {% extends "base.html" %}
 
 {% block content %}
-    <h1>Welcome to blomo.link!</h1>
-	<form action='/s' method='POST' name="shorts">
-		{{ form.hidden_tag() }}
-		<p>
-          long url:<br>{{ form.longurl(size=20) }}<br>
-          short url:<br>{{ form.shorturl(size=20) }}<br>
-		<p><input type="submit" value="Shorten"></p>
-	</form>
+  <h1>Welcome to blomo.link!</h1>
+  <form action='/s' method='POST' name="shorts">
+    {{ form.hidden_tag() }}
+      <div>
+        {{ form.longurl.label }}: {{ form.longurl(size=20) }}<br>
+        {% if form.longurl.errors %}
+        <ul class="errors" style="color: red;">{% for error in form.longurl.errors %}<li>{{ error }}</li>{% endfor %}</ul>
+        {% endif %}
+        {{ form.shorturl.label }}: {{ form.shorturl(size=20) }}<br>
+        {% if form.shorturl.errors %}
+        <ul class="errors" style="color: red;">{% for error in form.shorturl.errors %}<li>{{ error }}</li>{% endfor %}</ul>
+        {% endif %}
+        <p><input type="submit" value="Shorten"></p>
+      </div>
+  </form>
 {% endblock %}

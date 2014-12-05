@@ -1,14 +1,13 @@
 {% extends "base.html" %}
 
 {% block content %}
-    <h1>{{ user.username }}</h1>
-    {% for link in links %}
-    <div>
-    	<p>
-        	long: {{ link.longurl }}<br>
-        	short: <a href='http://localhost:5000/s/{{ link.shorturl }}'>http://localhost:5000/s/{{ link.shorturl }}</a>
-        	<br>
-    	</p>
-    </div>
-    {% endfor %}
+  <h1>{{ user.username }}</h1>
+  {% for link in links %}
+  <div>
+    <p>
+      long: {{ link.longurl }}<br>
+      short: <a href='http://localhost:5000/s/{{ link.shorturl }}'>http://localhost:5000/s/{{ link.shorturl }}</a><br>
+    </p>
+  </div>
+  {% endfor %}
 {% endblock %}
