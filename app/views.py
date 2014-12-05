@@ -90,7 +90,13 @@ def before_request():
 def shorts():
     form = ShortenForm(request.form)
     if request.method == 'POST':
-        link = Link(form.longurl.data, form.shorturl.data) 
+        longurl = form.longurl.data
+        shorturl = form.shorturl.data
+        shorturl_query = Link.query.filter_by(shorturl=shorturl).first().shorturl
+        if shorturl == shorturl_query:
+            flash('Link already exists. Choose again.')
+            return redirect(url_for('index'))
+        link = Link(longurl, shorturl) 
         user_is_logged_in = (g.user is not None and g.user.is_authenticated())
         form_is_valid = form.validate_on_submit()
         if user_is_logged_in and form_is_valid:
