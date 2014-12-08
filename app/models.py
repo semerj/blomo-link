@@ -54,6 +54,12 @@ class Link(db.Model):
     def __repr__(self):
         return '<long %r, short %r>' % (self.longurl, self.shorturl)
 
+    def serialize(self):
+        return {
+            'longurl': self.longurl,
+            'shorturl': self.shorturl,
+            'timestamp': self.timestamp,
+        }   
 
 class Click(db.Model):
     __tablename__ = "click"
