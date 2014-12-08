@@ -125,7 +125,9 @@ def shorts():
                 db.session.add(link)
                 db.session.commit()
                 flash('Link successfully registered')
-                return render_template('shorts.html', shorturl=linkurl + link.shorturl)
+                return render_template('shorts.html', 
+                    shorturl='{0}s/{1}'.\
+                    format(request.url_root, link.shorturl))
 
         elif not form_is_valid:
             return render_template('index.html', form=form)
@@ -169,8 +171,10 @@ def profile(username):
         filter(User.username == user.username).\
         order_by(Link.timestamp.desc())
 
+    updated_links = [(request.url_root + 's/' + link.shorturl, link.longurl) for link in links]
+
     return render_template("user.html",
                            title='Home',
                            user=user,
-                           links=links)
+                           links=updated_links)
     #return jsonify(links=[link.serialize() for link in links])
