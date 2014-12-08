@@ -3,7 +3,7 @@
 {% block content %}
   <h1>Registration</h1>
   <form action="" method="POST" name="registration">
-     {{ form.hidden_tag() }}
+    {{ form.hidden_tag() }}
       <p>
         {{ form.username.label }}: {{ form.username(size=20) }}<br>
         {% if form.username.errors %}
