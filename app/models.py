@@ -1,4 +1,4 @@
-from app import db
+from app import db, bcrypt
 import datetime
 
 
@@ -7,15 +7,13 @@ class User(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(64), index=True, unique=True)
     password = db.Column(db.String(255), nullable=False, default='')
-    #reset_password_token = db.Column(db.String(100), nullable=False, default='')
     email = db.Column(db.String(120), index=True, unique=False)
     timestamp = db.Column(db.DateTime, default=datetime.datetime.utcnow)
     links = db.relationship('Link', backref='user', lazy='dynamic')
-    #active = db.Column('is_active', db.Boolean(), nullable=False, server_default='0')
 
     def __init__(self, username, password, email):
         self.username = username
-        self.password = password
+        self.password = bcrypt.generate_password_hash(password)
         self.email = email
         self.timestamp = datetime.datetime.utcnow()
 
@@ -35,7 +33,7 @@ class User(db.Model):
         return unicode(self.id)
 
     def __repr__(self):
-        return '<user %r>' % (self.username)
+        return '<user {}>'.format(self.username)
 
 
 class Link(db.Model):
@@ -52,7 +50,7 @@ class Link(db.Model):
         self.timestamp = datetime.datetime.utcnow()
 
     def __repr__(self):
-        return '<long %r, short %r>' % (self.longurl, self.shorturl)
+        return '<long {}, short {}>'.format(self.longurl, self.shorturl)
 
     def serialize(self):
         return {
@@ -72,5 +70,4 @@ class Click(db.Model):
         self.timestamp = datetime.datetime.utcnow()
 
     def __repr(self):
-        return '<short %r, time %r>' % (self.shorturl, self.timestamp)
-
+        return '<short {}, time {}>'.format(self.shorturl, self.timestamp)

@@ -2,7 +2,7 @@ from flask import render_template, flash, redirect, session, url_for, request, g
 from flask.ext.login import login_user, logout_user, current_user, login_required
 from app import app, db, login_manager
 from forms import LoginForm, RegistrationForm, ShortenForm
-from models import User, Link, Click
+from models import User, Link, Click, bcrypt
 
 
 @app.route('/')
@@ -63,25 +63,26 @@ def login():
         if form_is_valid:
             username = form.username.data
             password = form.password.data
-            remember_me = False
+            registered_user = User.query.filter_by(username=username).first()
 
+            remember_me = False
             if 'remember_me' in request.form:
                 remember_me = True
 
-            registered_user = User.query.filter_by(username=username, password=password).first()
+            if registered_user is not None and bcrypt.check_password_hash(
+                registered_user.password, password
+                ):
+                login_user(registered_user, remember=remember_me)    
+                flash('Logged in successfully')
+                return redirect(request.args.get('next') or url_for('index'))
 
-            if registered_user is None:
+            else:
                 flash('Username or password is invalid' , 'error')
                 return render_template('login.html', form=form)
                 #return redirect(url_for('login'))
-            login_user(registered_user, remember=remember_me)
-            flash('Logged in successfully')
-            return redirect(request.args.get('next') or url_for('index'))
 
         else:
             return render_template('login.html', form=form)
-            #flash('Enter username or password' , 'error')
-            #return redirect(url_for('login'))
 
 
 @app.route('/logout')
