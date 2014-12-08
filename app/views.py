@@ -116,16 +116,12 @@ def shorts():
                 flash('Link already exists. Choose again.')
                 return redirect(url_for('index'))
 
-            elif user_is_logged_in:
+            else:
                 link = Link(longurl, shorturl)
-                link.user = g.user
-                db.session.add(link)
-                db.session.commit()
-                flash('Link successfully registered')
-                return render_template('shorts.html', shorturl=linkurl + link.shorturl)
+                
+                if user_is_logged_in:
+                    link.user = g.user
 
-            elif not user_is_logged_in:
-                link = Link(longurl, shorturl)
                 db.session.add(link)
                 db.session.commit()
                 flash('Link successfully registered')
