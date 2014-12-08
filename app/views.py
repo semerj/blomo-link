@@ -5,9 +5,6 @@ from forms import LoginForm, RegistrationForm, ShortenForm
 from models import User, Link, Click
 
 
-linkurl = 'http://localhost:5000/s/'
-
-
 @app.route('/')
 @app.route('/index', methods=['GET'])
 def index():
