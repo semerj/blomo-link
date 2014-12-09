@@ -174,55 +174,53 @@ def profile(username):
         flash('User {} not found.'.format(username))
         return redirect(url_for('index'))
 
-    links = Link.query.join(User, (User.id == Link.user_id)).\
-        filter(User.username == user.username).\
-        order_by(Link.timestamp.desc())
+    else:
+        links = Link.query.join(User, (User.id == Link.user_id)).\
+            filter(User.username == user.username).\
+            order_by(Link.timestamp.desc())
 
-    daysAgo = []
-    for i in range(8):
-        daysAgo.append(func.date(datetime.utcnow() - timedelta(days=i)))
-# A list of the user's short URLs and long URLs
-    listOfLinksQuery = Link.query.\
-        join(User, (User.id == Link.user_id)).\
-        filter(User.username == user.username).\
-        group_by(Link.shorturl).\
-        order_by(Link.timestamp.desc())
+        daysAgo = []
+        for x in xrange(8):
+            daysAgo.append(
+                datetime.date(datetime.utcnow() - timedelta(days=x)))
 
-    listOfShortURL = [c.shorturl for c in listOfLinksQuery]
-    listOfLongURL = [c.longurl for c in listOfLinksQuery]
+        # A list of the user's short URLs and long URLs
+        listOfLinksQuery = Link.query.\
+            join(User, (User.id == Link.user_id)).\
+            filter(User.username == user.username).\
+            group_by(Link.shorturl).\
+            order_by(Link.timestamp.desc())
 
-    totalClicksPerLink = []
-    for i in xrange(0, len(listOfShortURL)):
-        totalClicksPerLink.append(
-            int(Click.query.filter(
-                Click.shorturl == listOfShortURL[i]).count()))
+        listOfShortURL = [c.shorturl for c in listOfLinksQuery]
+        listOfLongURL = [c.longurl for c in listOfLinksQuery]
 
+        totalClicksPerLink = []
+        for i in xrange(0, len(listOfShortURL)):
+            totalClicksPerLink.append(
+                int(Click.query.filter(
+                    Click.shorturl == listOfShortURL[i]).count()))
 
-# A list of total clicks for each short URL
-# Broken down by each day of the week, starting with the most recent
-    weeklyCounts = [[] for x in xrange(len(listOfShortURL))]
-    for key, value in enumerate(listOfShortURL):
-        for j in xrange(8):
-            weeklyCounts[key].append(
-                int(Click.query.
-                    filter(Click.shorturl == value).
-                    filter(func.date(Click.timestamp) == daysAgo[j]).
-                    count()))
+        # A list of total clicks for each short URL
+        # Broken down by each day of the week, starting with the most recent
+        weeklyCounts = [[] for x in xrange(len(listOfShortURL))]
+        for key, value in enumerate(listOfShortURL):
+            for j in xrange(8):
+                weeklyCounts[key].append(
+                    int(Click.query.
+                        filter(Click.shorturl == value).
+                        filter(func.date(Click.timestamp) == daysAgo[j]).
+                        count()))
 
-    print weeklyCounts
-    masterList = [[[], [], [], []] for i in listOfShortURL]
+        listOfShortURL = [str(request.url_root + 's/' + x)
+                          for x in listOfShortURL]
+        listOfTimestamps = [datetime.date(link.timestamp) for link in links]
+        masterList = zip(listOfLongURL,
+                         listOfShortURL,
+                         totalClicksPerLink,
+                         weeklyCounts,
+                         listOfTimestamps)
 
-
-    listOfShortURL = [str(request.url_root + 's/' + x) for x in listOfShortURL]
-    masterList = zip(listOfLongURL,
-                     listOfShortURL,
-                     totalClicksPerLink,
-                     weeklyCounts)
-
-    print masterList
-
-    return render_template("user.html",
-                           title='Home',
-                           user=user,
-                           links=masterList,
-                           )
+        return render_template("user.html",
+                               title='Home',
+                               user=user,
+                               links=masterList)
