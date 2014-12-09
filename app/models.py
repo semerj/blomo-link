@@ -46,6 +46,7 @@ class Link(db.Model):
     timestamp = db.Column(db.DateTime())
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
 
+
     def __init__(self, longurl, shorturl):
         self.longurl = longurl
         self.shorturl = shorturl

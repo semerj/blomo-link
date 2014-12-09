@@ -3,7 +3,11 @@ from flask.ext.login import login_user, logout_user, current_user, login_require
 from app import app, db, login_manager
 from forms import LoginForm, RegistrationForm, ShortenForm
 from models import User, Link, Click
-
+from sqlalchemy import func
+from datetime import datetime, timedelta
+from sqlalchemy.sql import text
+from sqlalchemy.sql.expression import bindparam
+from sqlalchemy import Interval
 
 linkurl = 'http://localhost:5000/s/'
 
@@ -114,6 +118,7 @@ def shorts():
 @app.route('/s/<url>', methods=['GET'])
 def shorts_redirect(url):
     if request.method == 'GET':
+    
         url_query = Link.query.filter_by(shorturl=url).first()
         if url_query == None:
             flash('Link not found') #return abort(404)
@@ -140,8 +145,137 @@ def profile(username):
     links = Link.query.join(User, (User.id == Link.user_id)).\
         filter(User.username == user.username).\
         order_by(Link.timestamp.desc())
+
+
+
+    daysAgo = [func.date(datetime.utcnow()),
+               func.date(datetime.utcnow() - timedelta(days=1)),
+               func.date(datetime.utcnow() - timedelta(days=2)),
+               func.date(datetime.utcnow() - timedelta(days=3)),
+               func.date(datetime.utcnow() - timedelta(days=4)),
+               func.date(datetime.utcnow() - timedelta(days=5)),
+               func.date(datetime.utcnow() - timedelta(days=6)),
+               func.date(datetime.utcnow() - timedelta(days=7))
+            ]
+
+
+    #print query
+    #print links    
+
+    #totalClicksQuery = Click.query.join(Link, (Link.shorturl == Click.shorturl)).join(User, (User.id == Link.user_id)).filter(User.username == user.username).count()
+    #listOfClicksQuery = Click.query.join(Link, (Link.shorturl == Click.shorturl)).join(User, (User.id == Link.user_id)).filter(User.username == user.username)
+    
+    #A list of the user's short URLs and long URLs
+    listOfLinksQuery = Link.query.\
+        join(User, (User.id == Link.user_id)).\
+        filter(User.username == user.username).\
+        group_by(Link.shorturl).\
+        order_by(Link.timestamp.desc())    
+    
+    listOfShortURL = [c.shorturl for c in listOfLinksQuery]
+    listOfLongURL = [c.longurl for c in listOfLinksQuery]
+
+    #A list of total clicks for each short URL, starting with the most recent
+    #totalClicksPerLink = []
+    #for i in xrange(0, len(listOfShortURL)):
+    #    totalClicksPerLink.append(
+    #        int(Click.query.\
+    #        join(Link, (Link.shorturl == Click.shorturl)).\
+    #        join(User, (User.id == Link.user_id)).\
+    #            filter(User.username == user.username).\
+    #            filter(Link.shorturl == listOfShortURL[i]).\
+    #        count()))
+    
+    totalClicksPerLink = []
+    for i in xrange(0, len(listOfShortURL)):
+        totalClicksPerLink.append(
+            int(Click.query.filter(Click.shorturl == listOfShortURL[i]).count()))
+
+
+    #A list of total clicks for each short URL, broken down by each day of the week, starting with the most recent
+    weeklyCounts = [[] for x in xrange(len(listOfShortURL))]
+    for key, value in enumerate(listOfShortURL):
+        for j in xrange(8):
+            weeklyCounts[key].append(
+                int(Click.query.\
+                    filter(Click.shorturl == value).\
+                    filter(func.date(Click.timestamp) == daysAgo[j]).\
+                count()))
+
+    print weeklyCounts
+    masterList = [[[],[],[],[]] for i in listOfShortURL]
+
+    masterList = zip(listOfLongURL, listOfShortURL, totalClicksPerLink, weeklyCounts)
+
+    print masterList
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    """
+    shrt = [link.shorturl for link in links]
+    
+
+    print db.session.query(
+        Click.shorturl, 
+        db.func.count(Click.shorturl)).\
+            filter(Click.shorturl.in_(shrt)).\
+            group_by(Click.shorturl).all()
+    
+    
+    click_list = []
+    for x in range(8):
+        click_list.append(db.session.query(
+            Click.shorturl, 
+            db.func.count(Click.shorturl)).\
+        filter(Click.shorturl.in_(shrt)).\
+        filter(func.date(Click.timestamp)==daysAgo[x]).\
+        group_by(Click.shorturl).all())
+    print click_list
+    
+    click_list = []
+    for x in range(8):
+        if db.session.query(Click.shorturl, db.func.count(Click.shorturl)).filter(Click.shorturl.in_(shrt)).filter(func.\
+        date(Click.timestamp)==daysAgo[x]).group_by(Click.shorturl).all() == []:
+            click_list.append("super")
+        
+
+        else:
+            click_list.append(db.session.query(Click.shorturl, db.func.count(Click.shorturl)).filter(Click.shorturl.in_(shrt)).filter(func.\
+        date(Click.timestamp)==daysAgo[x]).group_by(Click.shorturl).all())
+    #print click_list
+
+    print db.session.query(Click.shorturl, db.func.count(Click.shorturl)).filter(Click.shorturl.in_(shrt)).filter(func.\
+        date(Click.timestamp)==daysAgo[0]).group_by(Click.shorturl).all()[1]
+    
+    """
+
     return render_template("user.html",
                            title='Home',
                            user=user,
-                           links=links)
+                           links=masterList,
+                           )
+
+
 
