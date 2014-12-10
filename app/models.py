@@ -43,7 +43,7 @@ class Link(db.Model):
     longurl = db.Column(db.String(140), index=True)
     shorturl = db.Column(db.String(140), index=True, unique=True)
     timestamp = db.Column(db.DateTime())
-    user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
+    user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
 
 
     def __init__(self, longurl, shorturl):
@@ -64,7 +64,7 @@ class Link(db.Model):
 class Click(db.Model):
     __tablename__ = "clicks"
     id = db.Column(db.Integer, primary_key = True)
-    shorturl = db.Column(db.String(140), db.ForeignKey('link.shorturl'))
+    shorturl = db.Column(db.String(140), db.ForeignKey('links.shorturl'))
     timestamp = db.Column(db.DateTime())
 
     def __init__(self, shorturl):

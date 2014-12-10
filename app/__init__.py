@@ -10,7 +10,7 @@ app.config.from_object('config')
 db = SQLAlchemy(app)
 #bcrypt = Bcrypt(app)
 
-app.config['SQLALCHEMY_DATABASE_URI'] = os.environ['DATABASE_URL']
+#app.config['SQLALCHEMY_DATABASE_URI'] = os.environ['DATABASE_URL']
 
 login_manager = LoginManager()
 login_manager.init_app(app)
