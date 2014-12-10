@@ -183,7 +183,7 @@ def profile(username):
         links = Link.query.join(User, (User.id == Link.user_id)).\
             filter(User.username == user.username).\
             order_by(Link.timestamp.desc())
-        return redirect(url_for('index'))
+
         daysAgo = []
         for x in xrange(8):
             daysAgo.append(
@@ -195,6 +195,8 @@ def profile(username):
             filter(User.username == user.username).\
             group_by(Link.shorturl).\
             order_by(Link.timestamp.desc())
+
+        return redirect(url_for('index'))
 
         listOfShortURL = [c.shorturl for c in listOfLinksQuery]
         listOfLongURL = [c.longurl for c in listOfLinksQuery]
