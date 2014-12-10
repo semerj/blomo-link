@@ -36,7 +36,7 @@ def register():
 
             if username_exist is not None:
                 flash("Username already in use. Please try again.")
-                return render_template('registration.html', form=form)
+                return render_template('registration.html', form=form, user=g.user)
 
             else:
                 user = User(form.username.data,
@@ -49,10 +49,10 @@ def register():
 
         else:
             flash('Registration form is not complete')
-            return render_template('registration.html', form=form)
+            return render_template('registration.html', form=form, user=g.user)
 
     elif request.method == 'GET':
-        return render_template('registration.html', form=form)
+        return render_template('registration.html', form=form, user=g.user)
 
 
 @app.route("/login", methods=["GET", "POST"])
@@ -140,7 +140,7 @@ def shorts():
                 return render_template(
                     'shorts.html',
                     shorturl='{}s/{}'.format(request.url_root, link.shorturl),
-                    user=user)
+                    user=g.user)
 
         elif not form_is_valid:
             return render_template('index.html', form=form)
@@ -227,5 +227,5 @@ def profile(username):
 
         return render_template("user.html",
                                title='Home',
-                               user=user,
+                               user=g.user,
                                links=masterList)
