@@ -164,12 +164,12 @@ def shorts_redirect(url):
             return redirect(url_query.longurl)
 
 
-@app.route('/users')
-def user():
-    return redirect(url_for('index'))
+#@app.route('/user')
+#def user():
+#    return redirect(url_for('index'))
 
 
-@app.route('/users/<username>')
+@app.route('/user/<username>')
 @login_required
 def profile(username):
     user = User.query.filter_by(id=g.user.id).first()
