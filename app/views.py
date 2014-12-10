@@ -197,9 +197,8 @@ def profile(username):
             order_by(Link.timestamp.desc())
 
         listOfShortURL = [c.shorturl for c in listOfLinksQuery]
+        return listOfShortURL
         listOfLongURL = [c.longurl for c in listOfLinksQuery]
-
-        return redirect(url_for('index'))
 
         totalClicksPerLink = []
         for i in xrange(0, len(listOfShortURL)):
