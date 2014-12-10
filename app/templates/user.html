@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+
+{% block content %}
+  <h1>{{ user.username }}</h1>
+  {% for link in links %}
+  <div>
+    <p>
+      long: {{ link[0] }}<br>
+      short: <a href="{{ link[1] }}">{{ link[1] }}</a><br>
+      total: {{ link[2] }}<br>
+      count: {{ link[3] }}<br>
+      created: {{ link[4] }}
+    </p>
+  </div>
+  {% endfor %}
+{% endblock %}
