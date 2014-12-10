@@ -225,7 +225,8 @@ def profile(username):
                          weeklyCounts,
                          listOfTimestamps)
 
-        return render_template("user.html",
-                               title='Home',
-                               user=username,
-                               links=masterList)
+        return redirect(url_for('index'))
+        #return render_template("user.html",
+        #                       title='Home',
+        #                       user=user,
+        #                       links=masterList)
