@@ -172,7 +172,6 @@ def user():
 @app.route('/user/<username>')
 @login_required
 def profile(username):
-    #user = User.query.filter_by(id=g.user.id).first()
     user = User.query.filter_by(username=username).first()
 
     if user is None:
@@ -192,12 +191,11 @@ def profile(username):
         # A list of the user's short URLs and long URLs
         listOfLinksQuery = Link.query.\
             join(User, (User.id == Link.user_id)).\
-            filter(User.username == user.username).\
+            #filter(User.username == user.username).\
             group_by(Link.shorturl).\
             order_by(Link.timestamp.desc())
 
         listOfShortURL = [c.shorturl for c in listOfLinksQuery]
-        return listOfShortURL
         listOfLongURL = [c.longurl for c in listOfLinksQuery]
 
         totalClicksPerLink = []
