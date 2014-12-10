@@ -189,10 +189,8 @@ def profile(username):
                 datetime.date(datetime.utcnow() - timedelta(days=x)))
 
         # A list of the user's short URLs and long URLs
-        listOfLinksQuery = Link.query.\
-            join(User, (User.id == Link.user_id)).\
-            group_by(Link.shorturl).\
-            order_by(Link.timestamp.desc())
+        listOfLinksQuery = Link.query.join(User, (User.id == Link.user_id)).group_by(Link.shorturl).order_by(Link.timestamp.desc())
+
         #filter(User.username == user.username).\
 
         listOfShortURL = [c.shorturl for c in listOfLinksQuery]
