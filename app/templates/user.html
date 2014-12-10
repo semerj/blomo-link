@@ -1,16 +1,124 @@
 {% extends "base.html" %}
 
 {% block content %}
-  <h1>{{ user.username }}</h1>
+
+
+<div class="container">
+    <section id="main-content">
+        <section class="wrapper">
+
+            <div class="row">
+                <div class="col-lg-9 main-chart">
+                    <div class="row mt">
+                    <!-- SERVER STATUS PANELS -->
+                        <div class="col-md-4 col-sm-4 mb">
+                            <!-- REVENUE PANEL -->
+                            <div class="darkblue-panel pn">
+                                <div class="darkblue-header">
+                                    <h5>SUPER AWESOME LINK</h5>
+                                </div>
+                                <div class="chart mt">
+                                    <div class="sparkline" data-type="line" data-resize="true" data-height="75" data-width="90%" data-line-width="1" data-line-color="#fff" data-spot-color="#fff" data-fill-color="" data-highlight-line-color="#fff" data-spot-radius="4" data-data="[200,135,667,333,526,996,564,123,890,464,655]"></div>
+                                </div>
+                                <p class="mt"><b>17,980</b><br/>Clicks</p>
+                            </div>
+                        </div><!-- /col-md-4 -->
+                    </div>
+                </div>
+            </div>
+        </section>
+    </section>   
+</div>     
+
+
+
+	<div class="container">
+        <section id="main-content">
+          <section class="wrapper">
+          	<h3><i class="fa fa-angle-right"></i> Welcome Back, {{ user.username }}~</h3>
+				<div class="row">
+
+                    <div class="col-md-12 mt">
+                        <div class="content-panel">
+                            <table class="table table-hover">
+                                <h4><i class="fa fa-angle-right"></i> Your URL Satchel</h4>
+                                <hr>
+                                <thead>
+
+                                <tr>
+                                    <th>#</th>
+                                    <th>Long URL</th>
+                                    <th>Short URL</th>
+                                    <!-- <th>Link</th> -->
+                                    <th class="wayback">WayBack Machine Link</th>
+                                </tr>
+                                </thead>
+                                {% set count = 1 %}
+                                {% for link in links %}
+                                <tbody>
+                                <tr>
+                                    <td>{{ count }}</td>
+                                    <td><a href="{{ link[0] }}">{{ link[0] }}</a></td>
+                                    <td><a href="{{ link[1] }}">{{ link[1] }}</a></td>
+                                    <!-- <td><a href="http://motherfuckingwebsite.com/" target="_blank">www.example.com</a></td> -->
+                                    <td class="wayback"><a href="https://web.archive.org/web/19970507174340/http://www.bestbuy.com/" target="_blank">Wayback View</a></td>
+                                </tr>
+                                </tbody>
+                                {% set count = count + 1 %}
+                                {% endfor %}
+                            </table>
+                        </div><!--/content-panel -->
+                    </div><!-- /col-md-12 -->
+                </div>
+          </section>        
+        </section>          
+    </div>
+
+  <script type="application/javascript">
+        $(document).ready(function () {
+            $("#date-popover").popover({html: true, trigger: "manual"});
+            $("#date-popover").hide();
+            $("#date-popover").click(function (e) {
+                $(this).hide();
+            });
+        
+            $("#my-calendar").zabuto_calendar({
+                action: function () {
+                    return myDateFunction(this.id, false);
+                },
+                action_nav: function () {
+                    return myNavFunction(this.id);
+                },
+                ajax: {
+                    url: "show_data.php?action=1",
+                    modal: true
+                },
+                legend: [
+                    {type: "text", label: "Special event", badge: "00"},
+                    {type: "block", label: "Regular event", }
+                ]
+            });
+        });
+        
+        
+        function myNavFunction(id) {
+            $("#date-popover").hide();
+            var nav = $("#" + id).data("navigation");
+            var to = $("#" + id).data("to");
+            console.log('nav ' + nav + ' to: ' + to.month + '/' + to.year);
+        }
+    </script>
+
+
+
+
+<!--   <h1>{{ user.username }}</h1>
   {% for link in links %}
   <div>
     <p>
-      long: {{ link[0] }}<br>
-      short: <a href="{{ link[1] }}">{{ link[1] }}</a><br>
-      total: {{ link[2] }}<br>
-      count: {{ link[3] }}<br>
-      created: {{ link[4] }}
+      long: {{ link.longurl }}<br>
+      short: <a href='http://localhost:5000/s/{{ link.shorturl }}'>http://localhost:5000/s/{{ link.shorturl }}</a><br>
     </p>
   </div>
-  {% endfor %}
+  {% endfor %} -->
 {% endblock %}

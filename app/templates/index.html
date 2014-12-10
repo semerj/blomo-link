@@ -1,19 +1,22 @@
-{% extends "base.html" %}
+{% extends "updated-initial.html" %}
 
 {% block content %}
-  <h1>Welcome to blomo.link!</h1>
-  <form action='/s' method='POST' name="shorts">
+  <form class="form-login" action='/s' method='POST' name="shorts">
+    <h2 class="form-login-heading">shorten your link</h2>
+    
     {{ form.hidden_tag() }}
-      <div>
-        {{ form.longurl.label }}: {{ form.longurl(size=20) }}<br>
+      <div class="login-wrap">
+        {{ form.longurl.label }}: {{ form.longurl(size=20, class_="form-control")}}<br>
         {% if form.longurl.errors %}
         <ul class="errors" style="color: red;">{% for error in form.longurl.errors %}<li>{{ error }}</li>{% endfor %}</ul>
         {% endif %}
-        {{ form.shorturl.label }}: {{ form.shorturl(size=20) }}<br>
+        {{ form.shorturl.label }}: {{ form.shorturl(size=20, class_="form-control")}}<br>
         {% if form.shorturl.errors %}
         <ul class="errors" style="color: red;">{% for error in form.shorturl.errors %}<li>{{ error }}</li>{% endfor %}</ul>
         {% endif %}
         <p><input type="submit" value="Shorten"></p>
+        <p style="float:right"><a class="logout" href="{{ url_for('login') }}">Login</a></p>
       </div>
   </form>
+</div>
 {% endblock %}

@@ -139,7 +139,8 @@ def shorts():
                 flash('Link successfully registered')
                 return render_template(
                     'shorts.html',
-                    shorturl='{}s/{}'.format(request.url_root, link.shorturl))
+                    shorturl='{}s/{}'.format(request.url_root, link.shorturl),
+                    user=user)
 
         elif not form_is_valid:
             return render_template('index.html', form=form)
