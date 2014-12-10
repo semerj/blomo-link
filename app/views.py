@@ -227,5 +227,5 @@ def profile(username):
 
         return render_template("user.html",
                                title='Home',
-                               user=user,
+                               user=username,
                                links=masterList)
