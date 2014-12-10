@@ -199,13 +199,12 @@ def profile(username):
         listOfShortURL = [c.shorturl for c in listOfLinksQuery]
         listOfLongURL = [c.longurl for c in listOfLinksQuery]
 
-        totalClicksPerLink = []
-        for i in xrange(0, len(listOfShortURL)):
-            totalClicksPerLink.append(
-                int(Click.query.filter(
-                    Click.shorturl == listOfShortURL[i]).count()))
-
-        return redirect(url_for('index'))
+        totalClicksPerLink = [9]
+        #totalClicksPerLink = []
+        #for i in xrange(0, len(listOfShortURL)):
+        #    totalClicksPerLink.append(
+        #        int(Click.query.filter(
+        #            Click.shorturl == listOfShortURL[i]).count()))
 
         # A list of total clicks for each short URL
         # Broken down by each day of the week, starting with the most recent
