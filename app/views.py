@@ -191,9 +191,9 @@ def profile(username):
         # A list of the user's short URLs and long URLs
         listOfLinksQuery = Link.query.\
             join(User, (User.id == Link.user_id)).\
-            #filter(User.username == user.username).\
             group_by(Link.shorturl).\
             order_by(Link.timestamp.desc())
+        #filter(User.username == user.username).\
 
         listOfShortURL = [c.shorturl for c in listOfLinksQuery]
         listOfLongURL = [c.longurl for c in listOfLinksQuery]
