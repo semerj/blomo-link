@@ -196,8 +196,6 @@ def profile(username):
             group_by(Link.shorturl).\
             order_by(Link.timestamp.desc())
 
-        return redirect(url_for('index'))
-
         listOfShortURL = [c.shorturl for c in listOfLinksQuery]
         listOfLongURL = [c.longurl for c in listOfLinksQuery]
 
@@ -206,6 +204,8 @@ def profile(username):
             totalClicksPerLink.append(
                 int(Click.query.filter(
                     Click.shorturl == listOfShortURL[i]).count()))
+
+        return redirect(url_for('index'))
 
         # A list of total clicks for each short URL
         # Broken down by each day of the week, starting with the most recent
