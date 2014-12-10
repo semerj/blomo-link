@@ -169,10 +169,11 @@ def user():
     return redirect(url_for('index'))
 
 
-@app.route('/user/<username>', methods=['GET'])
+@app.route('/user/<username>')
 @login_required
 def profile(username):
-    user = User.query.filter_by(id=g.user.id).first()
+    #user = User.query.filter_by(id=g.user.id).first()
+    user = User.query.filter_by(username=username).first()
 
     if user is None:
         flash('User {} not found.'.format(username))
