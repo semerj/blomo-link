@@ -1,4 +1,4 @@
-from app import db, bcrypt
+from app import db#, bcrypt
 import datetime
 
 
@@ -13,7 +13,8 @@ class User(db.Model):
 
     def __init__(self, username, password, email):
         self.username = username
-        self.password = bcrypt.generate_password_hash(password)
+        self.password = password
+        #self.password = bcrypt.generate_password_hash(password)
         self.email = email
         self.timestamp = datetime.datetime.utcnow()
 
