@@ -8,8 +8,8 @@ class User(db.Model):
     username = db.Column(db.String(64), index=True, unique=True)
     password = db.Column(db.String(255), nullable=False, default='')
     email = db.Column(db.String(120), index=True, unique=False)
-    timestamp = db.Column(db.DateTime, default=datetime.datetime.utcnow)
-    links = db.relationship('Link', backref='user', lazy='dynamic')
+    timestamp = db.Column(db.DateTime, default=dgit statetime.datetime.utcnow)
+    #links = db.relationship('Link', backref='user', lazy='dynamic')
 
     def __init__(self, username, password, email):
         self.username = username
