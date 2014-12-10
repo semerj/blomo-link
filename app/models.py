@@ -9,7 +9,7 @@ class User(db.Model):
     password = db.Column(db.String(255), nullable=False, default='')
     email = db.Column(db.String(120), index=True, unique=False)
     timestamp = db.Column(db.DateTime, default=dgit statetime.datetime.utcnow)
-    #links = db.relationship('Link', backref='user', lazy='dynamic')
+    links = db.relationship('Link', backref='user', lazy='dynamic')
 
     def __init__(self, username, password, email):
         self.username = username
