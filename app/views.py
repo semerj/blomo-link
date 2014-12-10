@@ -180,6 +180,7 @@ def profile(username):
         return redirect(url_for('index'))
 
     else:
+        return redirect(url_for('index'))
         links = Link.query.join(User, (User.id == Link.user_id)).\
             filter(User.username == user.username).\
             order_by(Link.timestamp.desc())
@@ -225,7 +226,7 @@ def profile(username):
                          weeklyCounts,
                          listOfTimestamps)
 
-        return redirect(url_for('index'))
+        
         #return render_template("user.html",
         #                       title='Home',
         #                       user=user,
