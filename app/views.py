@@ -229,3 +229,7 @@ def profile(username):
                                title='Home',
                                user=user,
                                links=masterList)
+
+@app.route('/404', methods=['GET'])
+def missing():
+    return render_template('404.html')
