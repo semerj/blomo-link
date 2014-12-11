@@ -7,13 +7,13 @@
     <meta name="author" content="Dashboard">
     <meta name="keyword" content="Dashboard, Bootstrap, Admin, Template, Theme, Responsive, Fluid, Retina">
 
-    <title>Welcome to blomo.link!</title>
+    <title>Welcome to blomo.link</title>
 
     <!-- Bootstrap core CSS -->
     <link href="http://127.0.0.1:5000/static/assets/css/bootstrap.css" rel="stylesheet">
     <!--external css-->
-    <link href="http://127.0.0.1:5000/static/assets/font-awesome/css/font-awesome.css" rel="stylesheet" />
-    <link href="http://127.0.0.1:5000/static/assets/font-awesome/css/font-awesome.css" rel="stylesheet" />
+    <link href="/static/assets/font-awesome/css/font-awesome.css" rel="stylesheet" />
+    <link href="/static/assets/font-awesome/css/font-awesome.css" rel="stylesheet" />
     <link rel="stylesheet" type="text/css" href="http://127.0.0.1:5000/static/assets/css/zabuto_calendar.css">
     <link rel="stylesheet" type="text/css" href="http://127.0.0.1:5000/static/assets/js/gritter/css/jquery.gritter.css" />
     <link rel="stylesheet" type="text/css" href="http://127.0.0.1:5000/static/assets/lineicons/style.css">            
@@ -41,7 +41,7 @@
                   <div class="fa fa-bars tooltips" data-placement="right" data-original-title="Toggle Navigation"></div>
               </div>
             <!--logo start-->
-            <a href="{{ url_for('index') }}" class="logo"><b>Freaking Awesome Link Shortener</b></a>
+            <a href="{{ url_for('index') }}" class="logo"><b>blomo.link</b></a>
             <!--logo end-->
             <div class="top-menu">
               <ul class="nav pull-right top-menu">
@@ -68,23 +68,29 @@
               
                   <p class="centered"><img src="/static/assets/img/oski.jpg" class="img-circle" width="60"></p>
                   {% if g.user.is_authenticated() %}
-                  | <h5 class="centered"><a id="oski" href="{{ url_for('profile', username=g.user.username) }}">{{ user.username }}</a></h5>
+                  <h5 class="centered"><a id="oski" href="{{ url_for('profile', username=g.user.username) }}">{{ user.username }}</a></h5>
                   {% endif %} 
                   {% if not g.user.is_authenticated() %}
-                  | <h5 class="centered"><!-- <a id="oski" href=#> -->Links Newbee~<!-- </a> --></h5>
-                  | <p> Create an quick account to easily manager your URL's~</p>
+                  <h5 class="centered"><!-- <a id="oski" href=#> -->Links Newbee<!-- </a> --></h5>
+                  <p> Create an quick account to easily manager your URL's~</p>
                   {% endif %}
                   <li class="mt">
-                      <a href="index.html">
+                      <a href="/user/{{ user.username }}">
                           <i class="fa fa-dashboard"></i>
-                          <span>#need to fill</span>
+                          <span>Dashboard</span>
                       </a>
                   </li>
 
                   <li class="sub-menu">
-                      <a class="active" href="basic_table.html" >
+                      <a href="/table/{{ user.username }}" >
                           <i class="fa fa-th"></i>
-                          <span>#need to fill</span>
+                          <span>Table of Links</span>
+                      </a>
+                  </li>
+                  <li class="sub-menu">
+                      <a href="/index" >
+                          <i class="fa fa-desktop"></i>
+                          <span>Back to Link Shortener</span>
                       </a>
                   </li>
 
@@ -95,12 +101,12 @@
       <!--sidebar end-->
 
       {% block content %}{% endblock %}
-
+      
         <!--main content end-->
       <!--footer start-->
       <footer class="site-footer">
           <div class="text-center">
-              2014 - Alvarez.is
+              2014 - Go BLOMO!
               <a href="basic_table.html#" class="go-top">
                   <i class="fa fa-angle-up"></i>
               </a>
@@ -132,11 +138,9 @@
 
 <script>
   //custom select box
-
   $(function(){
       $('select.styled').customSelect();
   });
-
 </script>
 
 
