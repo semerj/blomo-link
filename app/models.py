@@ -3,7 +3,7 @@ import datetime
 
 
 class User(db.Model):
-    __tablename__ = "user"
+    __tablename__ = "users"
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(64), index=True, unique=True)
     password = db.Column(db.String(255), nullable=False, default='')
@@ -38,13 +38,12 @@ class User(db.Model):
 
 
 class Link(db.Model):
-    __tablename__ = "link"
+    __tablename__ = "links"
     id = db.Column(db.Integer, primary_key = True)
     longurl = db.Column(db.String(140), index=True)
     shorturl = db.Column(db.String(140), index=True, unique=True)
     timestamp = db.Column(db.DateTime())
-    user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
-
+    user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
 
     def __init__(self, longurl, shorturl):
         self.longurl = longurl
@@ -62,9 +61,9 @@ class Link(db.Model):
         }   
 
 class Click(db.Model):
-    __tablename__ = "click"
+    __tablename__ = "clicks"
     id = db.Column(db.Integer, primary_key = True)
-    shorturl = db.Column(db.String(140), db.ForeignKey('link.shorturl'))
+    shorturl = db.Column(db.String(140), db.ForeignKey('links.shorturl'))
     timestamp = db.Column(db.DateTime())
 
     def __init__(self, shorturl):

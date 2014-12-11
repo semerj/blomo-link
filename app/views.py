@@ -172,7 +172,7 @@ def user():
 @app.route('/user/<username>')
 @login_required
 def profile(username):
-    user = User.query.filter_by(id=g.user.id).first()
+    user = User.query.filter_by(username=username).first()
 
     if user is None:
         flash('User {} not found.'.format(username))
@@ -192,8 +192,7 @@ def profile(username):
         listOfLinksQuery = Link.query.\
             join(User, (User.id == Link.user_id)).\
             filter(User.username == user.username).\
-            group_by(Link.shorturl).\
-            order_by(Link.timestamp.desc())
+            order_by(Link.timestamp.desc())            
 
         listOfShortURL = [c.shorturl for c in listOfLinksQuery]
         listOfLongURL = [c.longurl for c in listOfLinksQuery]
