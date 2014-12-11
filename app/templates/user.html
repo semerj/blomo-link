@@ -18,7 +18,7 @@
                                     <h5>SUPER AWESOME LINK</h5>
                                 </div>
                                 <div class="chart mt">
-                                    <div class="sparkline" data-type="line" data-resize="true" data-height="75" data-width="90%" data-line-width="1" data-line-color="#fff" data-spot-color="#fff" data-fill-color="" data-highlight-line-color="#fff" data-spot-radius="4" data-data="[200,135,667,333,526,996,564,123,890,464,655]"></div>
+                                    <div class="sparkline" data-type="line" data-resize="true" data-height="75" data-width="90%" data-line-width="1" data-line-color="#fff" data-spot-color="#fff" data-fill-color="" data-highlight-line-color="#fff" data-spot-radius="4" data-data="[200,135,667,333,526,996,564,123]"></div>
                                 </div>
                                 <p class="mt"><b>17,980</b><br/>Clicks</p>
                             </div>
@@ -60,8 +60,7 @@
                                     <td>{{ count }}</td>
                                     <td><a href="{{ link[0] }}">{{ link[0] }}</a></td>
                                     <td><a href="{{ link[1] }}">{{ link[1] }}</a></td>
-                                    <!-- <td><a href="http://motherfuckingwebsite.com/" target="_blank">www.example.com</a></td> -->
-                                    <td class="wayback"><a href="https://web.archive.org/web/19970507174340/http://www.bestbuy.com/" target="_blank">Wayback View</a></td>
+                                    <td class="wayback"><a href="https://web.archive.org/web/2004/{{ link[0] }}" target="_blank">Wayback View</a></td>
                                 </tr>
                                 </tbody>
                                 {% set count = count + 1 %}
