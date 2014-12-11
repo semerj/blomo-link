@@ -140,6 +140,7 @@ def shorts():
                 return render_template(
                     'shorts.html',
                     shorturl='{}s/{}'.format(request.url_root, link.shorturl),
+                    longurl='{}s/{}'.format(request.url_root, link.longurl),
                     user=g.user)
 
         elif not form_is_valid:
