@@ -26,9 +26,36 @@
   </head>
 
   <body>
+    <!--header start-->
+    <header class="header black-bg">
+<!--             <div class="sidebar-toggle-box">
+                <div class="fa fa-bars tooltips" data-placement="right" data-original-title="Toggle Navigation"></div>
+            </div> -->
+          <!--logo start-->
+          <a href="{{ url_for('index') }}" class="logo"><b>blomo.link</b></a>
+          <!--logo end-->
+          <div class="top-menu">
+            <ul class="nav pull-right top-menu">
+                  {% if g.user.is_authenticated() %}
+                  <li><a class="logout" href="{{ url_for('logout') }}">Logout</a></li>
+                  {% endif %}
+                  {% if not g.user.is_authenticated() %}
+                  <li><a class="logout" href="{{ url_for('login') }}">Login</a></li>
+                  <li><a class="logout" href="{{ url_for('register') }}">Sign Up</a></li>
+                  {% endif %}
+            </ul>
+          </div>
+      </header>
+    <!--header end-->
+
+
+
     <div id="login-page">
       <div class="container">
-        {% block content %}{% endblock %}
+        <div style="margin-top: 13%;">
+        {% block content %}
+        {% endblock %}
+        </div>
       </div>
     </div>
     <!-- js placed at the end of the document so the pages load faster -->

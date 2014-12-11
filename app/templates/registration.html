@@ -3,7 +3,7 @@
 {% block content %}
 <div>  
   <form class="form-login" action="" method="POST" name="registration">
-    <h2 class="form-login-heading">Registration</h2>
+    <h2 class="form-login-heading">Sign Up</h2>
     {{ form.hidden_tag() }}
       <div class="login-wrap">
         {{ form.username.label }}: {{ form.username(size=20, class_="form-control") }}<br>
@@ -20,5 +20,6 @@
         {% endif %}
       </p>
       <p><input type="submit" value="Sign Up"></p>
+      <p>Already have an account? sign in <a href="{{ url_for('login') }}">here.</a></p>
   </form>
 {% endblock %}
