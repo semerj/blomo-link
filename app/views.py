@@ -45,11 +45,12 @@ def register():
                 db.session.add(user)
                 db.session.commit()
                 login_user(user)
-                flash('User successfully registered')
+                flash('Thanks for signing up! Now create your first blomoLink~')
                 return redirect(url_for('index'))
 
         else:
-            flash('Registration form is not complete')
+            # not sure if this alert is repetitive as we have "this field is required" warning
+            flash('Signup form is not complete')
             return render_template('registration.html', form=form)
 
     elif request.method == 'GET':
@@ -85,7 +86,7 @@ def login():
             #        ):
             if registered_user is not None:
                 login_user(registered_user, remember=remember_me)
-                flash('Logged in successfully')
+                flash('Login successful')
                 return redirect(request.args.get('next') or url_for('index'))
 
             else:
@@ -126,7 +127,7 @@ def shorts():
                 filter_by(shorturl=shorturl).first()
 
             if shorturl_query is not None:
-                flash('Link already exists. Choose again.')
+                flash('Link already exists. Try choosing another one.')
                 return redirect(url_for('index'))
 
             else:
@@ -137,7 +138,8 @@ def shorts():
 
                 db.session.add(link)
                 db.session.commit()
-                flash('Link successfully registered')
+                # this below flash is not necessary cuz we already say so in a stylized header in shorts.html.
+                # flash('blomoLink ready to go!')
                 return render_template(
                     'shorts.html',
                     shorturl='{}s/{}'.format(request.url_root, link.shorturl),
@@ -157,6 +159,7 @@ def shorts_redirect(url):
         url_query = Link.query.filter_by(shorturl=url).first()
 
         if url_query is None:
+            #will need to take out this flash one 404 page is in place.
             flash('Link not found')  # return abort(404)
             return redirect(url_for('index'))
 
@@ -175,7 +178,7 @@ def user():
 @app.route('/user/<username>')
 @login_required
 def profile(username):
-    user = User.query.filter_by(id=g.user.id).first()
+    user = User.query.filter_by(username=username).first()
 
     if user is None:
         flash('User {} not found.'.format(username))
@@ -187,7 +190,7 @@ def profile(username):
             order_by(Link.timestamp.desc())
 
         daysAgo = []
-        for x in xrange(11):
+        for x in xrange(8):
             daysAgo.append(
                 datetime.date(datetime.utcnow() - timedelta(days=x)))
 
@@ -211,7 +214,7 @@ def profile(username):
         # Broken down by each day of the week, starting with the most recent
         weeklyCounts = [[] for x in xrange(len(listOfShortURL))]
         for key, value in enumerate(listOfShortURL):
-            for j in xrange(11):
+            for j in xrange(8):
                 weeklyCounts[key].append(
                     int(Click.query.
                         filter(Click.shorturl == value).
