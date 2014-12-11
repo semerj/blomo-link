@@ -37,6 +37,7 @@
           <div class="top-menu">
             <ul class="nav pull-right top-menu">
                   {% if g.user.is_authenticated() %}
+                  <li><a class="logout" href="{{ url_for('profile', username=g.user.username) }}">Profile</a></li>
                   <li><a class="logout" href="{{ url_for('logout') }}">Logout</a></li>
                   {% endif %}
                   {% if not g.user.is_authenticated() %}
