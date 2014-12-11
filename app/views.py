@@ -45,7 +45,7 @@ def register():
                 db.session.add(user)
                 db.session.commit()
                 flash('User successfully registered')
-                return redirect(url_for('login'))
+                return redirect(url_for('index'))
 
         else:
             flash('Registration form is not complete')
