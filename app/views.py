@@ -44,6 +44,7 @@ def register():
                             form.email.data)
                 db.session.add(user)
                 db.session.commit()
+                login_user(user)
                 flash('User successfully registered')
                 return redirect(url_for('index'))
 
