@@ -68,23 +68,29 @@
               
                   <p class="centered"><img src="/static/assets/img/oski.jpg" class="img-circle" width="60"></p>
                   {% if g.user.is_authenticated() %}
-                  | <h5 class="centered"><a id="oski" href="{{ url_for('profile', username=g.user.username) }}">{{ user.username }}</a></h5>
+                  <h5 class="centered"><a id="oski" href="{{ url_for('profile', username=g.user.username) }}">{{ user.username }}</a></h5>
                   {% endif %} 
                   {% if not g.user.is_authenticated() %}
-                  | <h5 class="centered"><!-- <a id="oski" href=#> -->Links Newbee~<!-- </a> --></h5>
-                  | <p> Create an quick account to easily manager your URL's~</p>
+                  <h5 class="centered"><!-- <a id="oski" href=#> -->Links Newbee<!-- </a> --></h5>
+                  <p> Create an quick account to easily manager your URL's~</p>
                   {% endif %}
                   <li class="mt">
-                      <a href="index.html">
+                      <a href="/user/{{ user.username }}">
                           <i class="fa fa-dashboard"></i>
-                          <span>#need to fill</span>
+                          <span>Dashboard</span>
                       </a>
                   </li>
 
                   <li class="sub-menu">
-                      <a class="active" href="basic_table.html" >
+                      <a href="/table/{{ user.username }}" >
                           <i class="fa fa-th"></i>
-                          <span>#need to fill</span>
+                          <span>Table of Links</span>
+                      </a>
+                  </li>
+                  <li class="sub-menu">
+                      <a href="/index" >
+                          <i class="fa fa-desktop"></i>
+                          <span>Back to Link Shortener</span>
                       </a>
                   </li>
 
@@ -95,12 +101,12 @@
       <!--sidebar end-->
 
       {% block content %}{% endblock %}
-
+      
         <!--main content end-->
       <!--footer start-->
       <footer class="site-footer">
           <div class="text-center">
-              2014 - Alvarez.is
+              2014 - Go BLOMO!
               <a href="basic_table.html#" class="go-top">
                   <i class="fa fa-angle-up"></i>
               </a>
@@ -132,11 +138,9 @@
 
 <script>
   //custom select box
-
   $(function(){
       $('select.styled').customSelect();
   });
-
 </script>
 
 
