@@ -6,26 +6,32 @@
 <div class="container">
     <section id="main-content">
         <section class="wrapper">
-
+          <!-- {% for link in links %} -->
             <div class="row">
                 <div class="col-lg-9 main-chart">
                     <div class="row mt">
                     <!-- SERVER STATUS PANELS -->
                         <div class="col-md-4 col-sm-4 mb">
                             <!-- REVENUE PANEL -->
+                            
                             <div class="darkblue-panel pn">
+                              {% for link in links %}
                                 <div class="darkblue-header">
-                                    <h5>SUPER AWESOME LINK</h5>
+                                    <h5>{{ link[1] }}</h5>
                                 </div>
+                            
                                 <div class="chart mt">
-                                    <div class="sparkline" data-type="line" data-resize="true" data-height="75" data-width="90%" data-line-width="1" data-line-color="#fff" data-spot-color="#fff" data-fill-color="" data-highlight-line-color="#fff" data-spot-radius="4" data-data="[200,135,667,333,526,996,564,123,890,464,655]"></div>
+                                    <div class="sparkline" data-type="line" data-resize="true" data-height="75" data-width="90%" data-line-width="1" data-line-color="#fff" data-spot-color="#fff" data-fill-color="" data-highlight-line-color="#fff" data-spot-radius="4" data-data="{{ link[3] }}"></div>
                                 </div>
-                                <p class="mt"><b>17,980</b><br/>Clicks</p>
+                                <p class="mt"><b>{{ link[2] }}</b><br/>Clicks</p>
+                              {% endfor %}
                             </div>
+                            
                         </div><!-- /col-md-4 -->
                     </div>
                 </div>
             </div>
+          <!-- {% endfor %}   -->
         </section>
     </section>   
 </div>     
