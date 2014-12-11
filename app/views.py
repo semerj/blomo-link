@@ -36,7 +36,7 @@ def register():
 
             if username_exist is not None:
                 flash("Username already in use. Please try again.")
-                return render_template('registration.html', form=form, user=g.user)
+                return render_template('registration.html', form=form)
 
             else:
                 user = User(form.username.data,
@@ -49,10 +49,10 @@ def register():
 
         else:
             flash('Registration form is not complete')
-            return render_template('registration.html', form=form, user=g.user)
+            return render_template('registration.html', form=form)
 
     elif request.method == 'GET':
-        return render_template('registration.html', form=form, user=g.user)
+        return render_template('registration.html', form=form)
 
 
 @app.route("/login", methods=["GET", "POST"])
@@ -185,7 +185,7 @@ def profile(username):
             order_by(Link.timestamp.desc())
 
         daysAgo = []
-        for x in xrange(8):
+        for x in xrange(11):
             daysAgo.append(
                 datetime.date(datetime.utcnow() - timedelta(days=x)))
 
@@ -209,7 +209,7 @@ def profile(username):
         # Broken down by each day of the week, starting with the most recent
         weeklyCounts = [[] for x in xrange(len(listOfShortURL))]
         for key, value in enumerate(listOfShortURL):
-            for j in xrange(8):
+            for j in xrange(11):
                 weeklyCounts[key].append(
                     int(Click.query.
                         filter(Click.shorturl == value).
