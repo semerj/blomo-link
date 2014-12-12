@@ -14,6 +14,7 @@ Modified from work by Carlos Alvarez
     display: inline-block;
     max-width: 100%;
     margin-bottom: 5px;
+    word-wrap: break-word;
 }
 
 .form-control-imitate{
@@ -2272,12 +2273,19 @@ label {
     border-radius: 15px;
     color: #000;
     margin-top: 7%;
+    margin-right: 1%;
     padding-bottom: 20px;
     text-align: center;
     height: 70%;
-    width: 50%;
+    width: 30%;
     float: right;
 }
+
+@media (max-width: 1190px) {
+    .error-page {
+        width: 50%;
+    }
+    }
 
 @media (max-width: 455px) {
     .video {
@@ -2323,6 +2331,7 @@ h1.top_heading {
 .littleXAXIS {
     float: left;
     padding-left: 5px;
+    margin: 0px;
 }
 
 /*diffed*/
