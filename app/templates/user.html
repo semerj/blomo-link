@@ -14,59 +14,30 @@ $(document).ready(function(){
 });
 </script>
 
-<<<<<<< HEAD
-
-<div>
-    <section id="main-content">
-        <section class="wrapper">
-          
-            <div class="row">
-                <div class="col-lg-9 main-chart">
-                    <div class="row mt">
-                    <!-- SERVER STATUS PANELS -->
-=======
 <div id="dashboardLayout">
     <section id="main-content">
         <section class="wrapper">          
             <div class="row">
                 <div class="col-lg-9 main-chart">
                     <div class="row mt">
->>>>>>> fc78663c05a258cbf9b3a0c7eab937654dc7ceb3
                     {% for link in links %}
                         {%-if loop.index <= 6-%}
                         <div class="col-md-4 col-sm-4 mb">
                             <div class="darkblue-panel pn">
-<<<<<<< HEAD
-                              
-                                <div name="test" class="darkblue-header">
-                                    <h5>{{ link[1][24:] }}</h5>
-=======
                                 <div name="test" class="darkblue-header">
                                     <h5 class="graphTitle">{{ link[2] }}</h5>
->>>>>>> fc78663c05a258cbf9b3a0c7eab937654dc7ceb3
                                 </div>
                             
                                 <div class="chart mt">
                                     <div class="sparkline" data-type="line" data-resize="true" data-height="75" data-width="90%" data-line-width="1" data-line-color="#fff" data-spot-color="#fff" data-fill-color="" data-highlight-line-color="#fff" data-spot-radius="4" data-data="{{ link[4] }}"></div>
                                 </div>
-<<<<<<< HEAD
-                                <p class="mt"><b>{{ link[2] }}</b><br/>Clicks<br/> Created: {{link[4]}}</p>
-
-                            </div>
-                            
-                        </div><!-- /col-md-4 -->
-                        {%-endif-%}
-                    {% endfor %}
-                    <div class="row mt">
-                      <!--CUSTOM CHART START -->
-=======
+                                <p class="littleXAXIS">Today</p>
                                 <p class="mt"><b>{{ link[3] }}</b><br/>Clicks<br/> Created: {{link[5]}}</p>
                             </div>
                         </div>
                         {%-endif-%}
                     {% endfor %}
                     <div class="row mt">
->>>>>>> fc78663c05a258cbf9b3a0c7eab937654dc7ceb3
                       <div class="border-head">
                           <h3>VISITS</h3>
                       </div>
@@ -82,17 +53,6 @@ $(document).ready(function(){
                           {% for link in links %}
                             {%-if loop.index <= 8-%}
                           <div class="bar">
-<<<<<<< HEAD
-                              <div class="title">{{ link[1][24:] }}</div>
-                              <div class="value tooltips" data-original-title="{{ link[3]|sum() }}" data-toggle="tooltip" data-placement="top">{{ link[3]|sum() }}</div>
-
-                          </div>
-                            {%-endif-%}
-                          {% endfor %}
-                      </div>
-                      <!--custom chart end-->
-                    </div><!-- /row --> 
-=======
                               <div class="title">{{ link[2] }}</div>
                               <div class="value tooltips" data-original-title="{{ link[4]|sum() }}" data-toggle="tooltip" data-placement="top">{{ link[4]|sum() }}</div>
 
@@ -101,7 +61,6 @@ $(document).ready(function(){
                           {% endfor %}  
                       </div>
                     </div>
->>>>>>> fc78663c05a258cbf9b3a0c7eab937654dc7ceb3
                     </div>
                 </div>
                 <div class="col-lg-3 ds">
@@ -113,13 +72,8 @@ $(document).ready(function(){
                                     <span class="badge bg-theme"><i class="fa fa-clock-o"></i></span>
                                 </div>
                                 <div class="details">
-<<<<<<< HEAD
-                                    <p><muted>{{ link[4] }}</muted><br/>
-                                       <a href="#">{{ link[1][24:] }}</a> added<br/>
-=======
                                     <p><muted>{{ link[5] }}</muted><br/>
                                        <a href="#">{{ link[2] }}</a> added<br/>
->>>>>>> fc78663c05a258cbf9b3a0c7eab937654dc7ceb3
                                     </p>
                                 </div>
                               </div>
@@ -132,15 +86,12 @@ $(document).ready(function(){
 
     </section>   
 
-<<<<<<< HEAD
-</div>     
-=======
 </div>
 
 <div style="display: none;" id="tableLayout" class="container">
         <section id="main-content">
           <section class="wrapper">
-            <h3><i class="fa fa-angle-right"></i> Welcome Back, </h3>
+            <h3><i class="fa fa-angle-right"></i> Welcome Back</h3>
         <div class="row">
 
                     <div class="col-md-12 mt">
@@ -176,7 +127,6 @@ $(document).ready(function(){
           </section>        
         </section>          
     </div>
->>>>>>> fc78663c05a258cbf9b3a0c7eab937654dc7ceb3
 
 
   
