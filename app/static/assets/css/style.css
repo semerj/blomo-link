@@ -1,9 +1,5 @@
 /*
-Template Name: DASHGUM FREE - Bootstrap 3.2 Admin Theme
-Template Version: 1.0
-Author: Carlos Alvarez
-Website: http://blacktie.co
-Premium: http://www.gridgum.com
+Modified from work by Carlos Alvarez
 */
 
 /* Import fonts */
@@ -19,7 +15,6 @@ Premium: http://www.gridgum.com
     max-width: 100%;
     margin-bottom: 5px;
 }
-
 
 .form-control-imitate{
     display: block;
@@ -931,7 +926,7 @@ ul.top-menu > li > a:hover, ul.top-menu > li > a:focus {
     height: 100%;
     position: relative;
     width: 6%;
-    margin: 0px 4%;
+    margin: 0px 3.2%;
     float: left;
     text-align: center;
     z-index: 10;
@@ -2268,4 +2263,55 @@ label {
     min-height: 900px;
 }
 
+.error-page {
+    background-color: #FFF;
+    border-radius: 15px;
+    color: #000;
+    margin-top: 7%;
+    padding-bottom: 20px;
+    text-align: center;
+    height: 70%;
+}
 
+@media (max-width: 455px) {
+    .video {
+    width: 300px;
+    height: 169px;
+    }
+}
+
+@media (max-width: 639px) and (min-width: 456px) {
+    .video {
+    width: 400px;
+    height: 225px;
+    }
+}
+
+@media (min-width: 640px) {
+    .video {
+    width: 560px;
+    height: 315px;
+    }
+}
+
+@media (min-width: 640px) {
+    .video {
+    width: 560px;
+    height: 315px;
+    }
+}
+
+h1.top_heading {
+    margin: 0;
+    padding: 25px 20px;
+    text-align: center;
+    background: #7483AD;
+    border-radius: 5px 5px 0 0;
+    -webkit-border-radius: 5px 5px 0 0;
+    color: #fff;
+    font-size: 20px;
+    text-transform: uppercase;
+    font-weight: 300;
+}
+
+/*diffed*/

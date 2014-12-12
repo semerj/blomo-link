@@ -1,48 +1,97 @@
 {% extends "base.html" %}
 
 {% block content %}
+<script>
+$(document).ready(function(){
+  $("#dashboardButton").click(function(){
+    $("#tableLayout").hide();
+    $("#dashboardLayout").show();
+  });
+  $("#tableButton").click(function(){
+    $("#dashboardLayout").hide();
+    $("#tableLayout").show();
+  });
+});
+</script>
 
-
-<div class="container">
+<div id="dashboardLayout">
     <section id="main-content">
-        <section class="wrapper">
-          <!-- {% for link in links %} -->
+        <section class="wrapper">          
             <div class="row">
                 <div class="col-lg-9 main-chart">
                     <div class="row mt">
-                    <!-- SERVER STATUS PANELS -->
+                    {% for link in links %}
+                        {%-if loop.index <= 6-%}
                         <div class="col-md-4 col-sm-4 mb">
-                            <!-- REVENUE PANEL -->
-                            
                             <div class="darkblue-panel pn">
-                              {% for link in links %}
-                                <div class="darkblue-header">
-                                    <h5>{{ link[1] }}</h5>
+                                <div name="test" class="darkblue-header">
+                                    <h5 class="graphTitle">{{ link[2] }}</h5>
                                 </div>
                             
                                 <div class="chart mt">
-                                    <div class="sparkline" data-type="line" data-resize="true" data-height="75" data-width="90%" data-line-width="1" data-line-color="#fff" data-spot-color="#fff" data-fill-color="" data-highlight-line-color="#fff" data-spot-radius="4" data-data="{{ link[3] }}"></div>
+                                    <div class="sparkline" data-type="line" data-resize="true" data-height="75" data-width="90%" data-line-width="1" data-line-color="#fff" data-spot-color="#fff" data-fill-color="" data-highlight-line-color="#fff" data-spot-radius="4" data-data="{{ link[4] }}"></div>
                                 </div>
-                                <p class="mt"><b>{{ link[2] }}</b><br/>Clicks</p>
-                              {% endfor %}
+                                <p class="mt"><b>{{ link[3] }}</b><br/>Clicks<br/> Created: {{link[5]}}</p>
                             </div>
-                            
-                        </div><!-- /col-md-4 -->
+                        </div>
+                        {%-endif-%}
+                    {% endfor %}
+                    <div class="row mt">
+                      <div class="border-head">
+                          <h3>VISITS</h3>
+                      </div>
+                      <div class="custom-bar-chart">
+                          <ul class="y-axis">
+                              <li><span>8.4K+</span></li>
+                              <li><span>6.7K+</span></li>
+                              <li><span>5.0K+</span></li>
+                              <li><span>3.3K+</span></li>
+                              <li><span>1.6K+</span></li>
+                              <li><span>0</span></li>
+                          </ul>
+                          {% for link in links %}
+                            {%-if loop.index <= 8-%}
+                          <div class="bar">
+                              <div class="title">{{ link[2] }}</div>
+                              <div class="value tooltips" data-original-title="{{ link[4]|sum() }}" data-toggle="tooltip" data-placement="top">{{ link[4]|sum() }}</div>
+
+                          </div>
+                            {%-endif-%}
+                          {% endfor %}  
+                      </div>
+                    </div>
                     </div>
                 </div>
+                <div class="col-lg-3 ds">
+                        <h3>Recent Links</h3>
+                        {% for link in links %}
+                            {%-if loop.index <= 13-%}
+                              <div class="desc">
+                                <div class="thumb">
+                                    <span class="badge bg-theme"><i class="fa fa-clock-o"></i></span>
+                                </div>
+                                <div class="details">
+                                    <p><muted>{{ link[5] }}</muted><br/>
+                                       <a href="#">{{ link[2] }}</a> added<br/>
+                                    </p>
+                                </div>
+                              </div>
+                            {%-endif-%}
+                        {% endfor %}
+                  </div><!-- /col-lg-3 -->
             </div>
-          <!-- {% endfor %}   -->
+          
         </section>
+
     </section>   
-</div>     
 
+</div>
 
-
-	<div class="container">
+<div style="display: none;" id="tableLayout" class="container">
         <section id="main-content">
           <section class="wrapper">
-          	<h3><i class="fa fa-angle-right"></i> Welcome Back, {{ user.username }}~</h3>
-				<div class="row">
+            <h3><i class="fa fa-angle-right"></i> Welcome Back, </h3>
+        <div class="row">
 
                     <div class="col-md-12 mt">
                         <div class="content-panel">
@@ -55,7 +104,6 @@
                                     <th>#</th>
                                     <th>Long URL</th>
                                     <th>Short URL</th>
-                                    <!-- <th>Link</th> -->
                                     <th class="wayback">WayBack Machine Link</th>
                                 </tr>
                                 </thead>
@@ -64,10 +112,9 @@
                                 <tbody>
                                 <tr>
                                     <td>{{ count }}</td>
-                                    <td><a href="{{ link[0] }}">{{ link[0] }}</a></td>
-                                    <td><a href="{{ link[1] }}">{{ link[1] }}</a></td>
-                                    <!-- <td><a href="http://motherfuckingwebsite.com/" target="_blank">www.example.com</a></td> -->
-                                    <td class="wayback"><a href="https://web.archive.org/web/19970507174340/http://www.bestbuy.com/" target="_blank">Wayback View</a></td>
+                                    <td><a href="{{ link[0] }}" target="_blank">{{ link[0] }}</a></td>
+                                    <td><a href="{{ link[1] }}" target="_blank">{{ link[1] }}</a></td>
+                                    <td class="wayback"><a href="https://web.archive.org/web/200406/{{link[0]}}" target="_blank">Wayback View</a></td>
                                 </tr>
                                 </tbody>
                                 {% set count = count + 1 %}
@@ -80,51 +127,6 @@
         </section>          
     </div>
 
-  <script type="application/javascript">
-        $(document).ready(function () {
-            $("#date-popover").popover({html: true, trigger: "manual"});
-            $("#date-popover").hide();
-            $("#date-popover").click(function (e) {
-                $(this).hide();
-            });
-        
-            $("#my-calendar").zabuto_calendar({
-                action: function () {
-                    return myDateFunction(this.id, false);
-                },
-                action_nav: function () {
-                    return myNavFunction(this.id);
-                },
-                ajax: {
-                    url: "show_data.php?action=1",
-                    modal: true
-                },
-                legend: [
-                    {type: "text", label: "Special event", badge: "00"},
-                    {type: "block", label: "Regular event", }
-                ]
-            });
-        });
-        
-        
-        function myNavFunction(id) {
-            $("#date-popover").hide();
-            var nav = $("#" + id).data("navigation");
-            var to = $("#" + id).data("to");
-            console.log('nav ' + nav + ' to: ' + to.month + '/' + to.year);
-        }
-    </script>
 
-
-
-
-<!--   <h1>{{ user.username }}</h1>
-  {% for link in links %}
-  <div>
-    <p>
-      long: {{ link.longurl }}<br>
-      short: <a href='http://localhost:5000/s/{{ link.shorturl }}'>http://localhost:5000/s/{{ link.shorturl }}</a><br>
-    </p>
-  </div>
-  {% endfor %} -->
+  
 {% endblock %}
