@@ -1,0 +1,80 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="container">
+        <section id="main-content">
+          <section class="wrapper">
+          	<h3><i class="fa fa-angle-right"></i> Welcome Back, </h3>
+				<div class="row">
+
+                    <div class="col-md-12 mt">
+                        <div class="content-panel">
+                            <table class="table table-hover">
+                                <h4><i class="fa fa-angle-right"></i> Your URL Satchel</h4>
+                                <hr>
+                                <thead>
+
+                                <tr>
+                                    <th>#</th>
+                                    <th>Long URL</th>
+                                    <th>Short URL</th>
+                                    <th class="wayback">WayBack Machine Link</th>
+                                </tr>
+                                </thead>
+                                {% set count = 1 %}
+                                {% for link in links %}
+                                <tbody>
+                                <tr>
+                                    <td>{{ count }}</td>
+                                    <td><a href="{{ link[0] }}" target="_blank">{{ link[0] }}</a></td>
+                                    <td><a href="{{ link[1] }}" target="_blank">{{ link[1] }}</a></td>
+                                    <td class="wayback"><a href="https://web.archive.org/web/19970507174340/http://www.bestbuy.com/" target="_blank">Wayback View</a></td>
+                                </tr>
+                                </tbody>
+                                {% set count = count + 1 %}
+                                {% endfor %}
+                            </table>
+                        </div><!--/content-panel -->
+                    </div><!-- /col-md-12 -->
+                </div>
+          </section>        
+        </section>          
+    </div>
+
+<script type="application/javascript">
+        $(document).ready(function () {
+            $("#date-popover").popover({html: true, trigger: "manual"});
+            $("#date-popover").hide();
+            $("#date-popover").click(function (e) {
+                $(this).hide();
+            });
+        
+            $("#my-calendar").zabuto_calendar({
+                action: function () {
+                    return myDateFunction(this.id, false);
+                },
+                action_nav: function () {
+                    return myNavFunction(this.id);
+                },
+                ajax: {
+                    url: "show_data.php?action=1",
+                    modal: true
+                },
+                legend: [
+                    {type: "text", label: "Special event", badge: "00"},
+                    {type: "block", label: "Regular event", }
+                ]
+            });
+        });
+        
+        
+        function myNavFunction(id) {
+            $("#date-popover").hide();
+            var nav = $("#" + id).data("navigation");
+            var to = $("#" + id).data("to");
+            console.log('nav ' + nav + ' to: ' + to.month + '/' + to.year);
+        }
+    </script>
+
+{% endblock %}

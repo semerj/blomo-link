@@ -1,7 +1,32 @@
-{% extends "base.html" %}
+{% extends "updated-initial.html" %}
 
 {% block content %}
+<div class="form-login">
+  <h2 class="form-login-heading">blomoLink ready to go!</h2>
+<div class="login-wrap">
+<!-- {% with messages = get_flashed_messages() %}
+{% if messages %}
+<ul class="errors" style="color: red;">
+{% for message in messages %}
+    <li>{{ message }}</li>
+{% endfor %}
+</ul>
+{% endif %}
+{% endwith %} -->
+  <div class = "shorts-title">Your Long URL: <a class = "form-control-imitate" href='{{ longurl }}'>{{ longurl }}</a></div>
+  <div class = "shorts-title">Your Short URL: <a class = "form-control-imitate" href='{{ shorturl }}'>{{ shorturl }}</a></div>
+  <p><a href="{{ url_for('register') }}">Sign up</a> or <a href="{{ url_for('login') }}">sign in</a> to track your link stats!</p>
+  </div>
+</div>
+
+
+
+
+
+
+<!-- <div style="padding-left:20%; padding-top: 5%">  
   <div>Your shortened link is:<br>
     <a href='{{ shorturl }}'>{{ shorturl }}</a>
   </div>
+</div> -->
 {% endblock %}
