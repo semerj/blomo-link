@@ -201,19 +201,20 @@ def profile(username):
             group_by(Link.shorturl).\
             order_by(Link.timestamp.desc())
 
-        listOfShortURL = [c.shorturl for c in listOfLinksQuery]
+        listOfFULLShortURL = [c.shorturl for c in listOfLinksQuery]
+        listOfKeysShortURL = [c.shorturl for c in listOfLinksQuery]
         listOfLongURL = [c.longurl for c in listOfLinksQuery]
 
         totalClicksPerLink = []
-        for i in xrange(0, len(listOfShortURL)):
+        for i in xrange(0, len(listOfFULLShortURL)):
             totalClicksPerLink.append(
                 int(Click.query.filter(
-                    Click.shorturl == listOfShortURL[i]).count()))
+                    Click.shorturl == listOfFULLShortURL[i]).count()))
 
         # A list of total clicks for each short URL
         # Broken down by each day of the week, starting with the most recent
-        weeklyCounts = [[] for x in xrange(len(listOfShortURL))]
-        for key, value in enumerate(listOfShortURL):
+        weeklyCounts = [[] for x in xrange(len(listOfFULLShortURL))]
+        for key, value in enumerate(listOfFULLShortURL):
             for j in xrange(8):
                 weeklyCounts[key].append(
                     int(Click.query.
@@ -221,11 +222,12 @@ def profile(username):
                         filter(func.date(Click.timestamp) == daysAgo[j]).
                         count()))
 
-        listOfShortURL = [str(request.url_root + 's/' + x)
-                          for x in listOfShortURL]
+        listOfFULLShortURL = [str(request.url_root + 's/' + x)
+                          for x in listOfFULLShortURL]
         listOfTimestamps = [datetime.date(link.timestamp) for link in links]
         masterList = zip(listOfLongURL,
-                         listOfShortURL,
+                         listOfFULLShortURL,
+                         listOfKeysShortURL,
                          totalClicksPerLink,
                          weeklyCounts,
                          listOfTimestamps)
@@ -264,19 +266,19 @@ def table(username):
             group_by(Link.shorturl).\
             order_by(Link.timestamp.desc())
 
-        listOfShortURL = [c.shorturl for c in listOfLinksQuery]
+        listOfFULLShortURL = [c.shorturl for c in listOfLinksQuery]
         listOfLongURL = [c.longurl for c in listOfLinksQuery]
 
         totalClicksPerLink = []
-        for i in xrange(0, len(listOfShortURL)):
+        for i in xrange(0, len(listOfFULLShortURL)):
             totalClicksPerLink.append(
                 int(Click.query.filter(
-                    Click.shorturl == listOfShortURL[i]).count()))
+                    Click.shorturl == listOfFULLShortURL[i]).count()))
 
         # A list of total clicks for each short URL
         # Broken down by each day of the week, starting with the most recent
-        weeklyCounts = [[] for x in xrange(len(listOfShortURL))]
-        for key, value in enumerate(listOfShortURL):
+        weeklyCounts = [[] for x in xrange(len(listOfFULLShortURL))]
+        for key, value in enumerate(listOfFULLShortURL):
             for j in xrange(8):
                 weeklyCounts[key].append(
                     int(Click.query.
@@ -284,11 +286,11 @@ def table(username):
                         filter(func.date(Click.timestamp) == daysAgo[j]).
                         count()))
 
-        listOfShortURL = [str(request.url_root + 's/' + x)
-                          for x in listOfShortURL]
+        listOfFULLShortURL = [str(request.url_root + 's/' + x)
+                          for x in listOfFULLShortURL]
         listOfTimestamps = [datetime.date(link.timestamp) for link in links]
         masterList = zip(listOfLongURL,
-                         listOfShortURL,
+                         listOfFULLShortURL,
                          totalClicksPerLink,
                          weeklyCounts,
                          listOfTimestamps)
