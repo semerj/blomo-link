@@ -15,7 +15,7 @@
 **0. Create virtualenv, clone repo/checkout branch, install requirements:**
 
 ```bash
-$ mkvirtualenv bitly
+$ mkvirtualenv blomo
 
 $ git clone git@github.com:semerj/blomo-link.git
 $ cd blomo-link
