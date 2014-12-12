@@ -2334,4 +2334,9 @@ h1.top_heading {
     margin: 0px;
 }
 
+.errors {
+    padding: 0px;
+    text-align: center;
+}
+
 /*diffed*/
