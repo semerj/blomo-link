@@ -15,8 +15,12 @@ Modified from work by Carlos Alvarez
     max-width: 100%;
     margin-bottom: 5px;
 }
+<<<<<<< HEAD
  
  
+=======
+
+>>>>>>> fc78663c05a258cbf9b3a0c7eab937654dc7ceb3
 .form-control-imitate{
     display: block;
     width: 100%;
@@ -2315,3 +2319,4 @@ h1.top_heading {
     font-weight: 300;
 }
 
+/*diffed*/
