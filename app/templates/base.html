@@ -22,6 +22,7 @@
     <link href="../static/assets/css/style-responsive.css" rel="stylesheet">
     <link rel="icon" href="../static/img/favicon.ico" type="image/x-icon">
     <script src="../static/assets/js/chart-master/Chart.js"></script>
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
     
     <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!--[if lt IE 9]>
@@ -75,14 +76,14 @@
                   <p> Create an quick account to easily manager your URL's~</p>
                   {% endif %}
                   <li class="mt">
-                      <a href="/user/{{ user.username }}">
+                      <a id="dashboardButton">
                           <i class="fa fa-dashboard"></i>
                           <span>Dashboard</span>
                       </a>
                   </li>
 
                   <li class="sub-menu">
-                      <a href="/table/{{ user.username }}" >
+                      <a id="tableButton">
                           <i class="fa fa-th"></i>
                           <span>Table of Links</span>
                       </a>

@@ -1,7 +1,20 @@
 {% extends "base.html" %}
 
 {% block content %}
-<div>
+<script>
+$(document).ready(function(){
+  $("#dashboardButton").click(function(){
+    $("#tableLayout").hide();
+    $("#dashboardLayout").show();
+  });
+  $("#tableButton").click(function(){
+    $("#dashboardLayout").hide();
+    $("#tableLayout").show();
+  });
+});
+</script>
+
+<div id="dashboardLayout">
     <section id="main-content">
         <section class="wrapper">
           
@@ -72,7 +85,48 @@
 
     </section>   
 
-</div>     
+</div>
+
+<div style="display: none;" id="tableLayout" class="container">
+        <section id="main-content">
+          <section class="wrapper">
+            <h3><i class="fa fa-angle-right"></i> Welcome Back, </h3>
+        <div class="row">
+
+                    <div class="col-md-12 mt">
+                        <div class="content-panel">
+                            <table class="table table-hover">
+                                <h4><i class="fa fa-angle-right"></i> Your URL Satchel</h4>
+                                <hr>
+                                <thead>
+
+                                <tr>
+                                    <th>#</th>
+                                    <th>Long URL</th>
+                                    <th>Short URL</th>
+                                    <th class="wayback">WayBack Machine Link</th>
+                                </tr>
+                                </thead>
+                                {% set count = 1 %}
+                                {% for link in links %}
+                                <tbody>
+                                <tr>
+                                    <td>{{ count }}</td>
+                                    <td><a href="{{ link[0] }}" target="_blank">{{ link[0] }}</a></td>
+                                    <td><a href="{{ link[1] }}" target="_blank">{{ link[1] }}</a></td>
+                                    <td class="wayback"><a href="https://web.archive.org/web/200406/{{link[0]}}" target="_blank">Wayback View</a></td>
+                                </tr>
+                                </tbody>
+                                {% set count = count + 1 %}
+                                {% endfor %}
+                            </table>
+                        </div><!--/content-panel -->
+                    </div><!-- /col-md-12 -->
+                </div>
+          </section>        
+        </section>          
+    </div>
+
 
   
 {% endblock %}
