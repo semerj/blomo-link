@@ -4,9 +4,24 @@ from flask.ext.login import login_user, logout_user, \
     current_user, login_required
 from app import app, db, login_manager
 from forms import LoginForm, RegistrationForm, ShortenForm
-from models import User, Link, Click#, bcrypt
+from models import User, Link, Click, bcrypt
 from sqlalchemy import func
 from datetime import datetime, timedelta
+
+
+@login_manager.user_loader
+def load_user(id):
+    return User.query.get(int(id))
+
+
+@app.errorhandler(404)
+def page_not_found(e):
+    return render_template('404.html'), 404
+
+
+@app.before_request
+def before_request():
+    g.user = current_user
 
 
 @app.route('/')
@@ -14,12 +29,6 @@ from datetime import datetime, timedelta
 def index():
     form = ShortenForm()
     return render_template('index.html', form=form)
-
-
-@login_manager.user_loader
-def load_user(id):
-    '''loads a user from the database'''
-    return User.query.get(int(id))
 
 
 @app.route("/registration", methods=["GET", "POST"])
@@ -49,7 +58,6 @@ def register():
                 return redirect(url_for('index'))
 
         else:
-            # not sure if this alert is repetitive as we have "this field is required" warning
             flash('Signup form is not complete')
             return render_template('registration.html', form=form)
 
@@ -70,21 +78,16 @@ def login():
         if form_is_valid:
             username = form.username.data
             password = form.password.data
-            #registered_user = User.query.\
-            #    filter_by(username=username).first()
             registered_user = User.query.\
-                filter_by(username=username,
-                          password=password).first()
+                filter_by(username=username).first()
 
             remember_me = False
             if 'remember_me' in request.form:
                 remember_me = True
 
-            #if registered_user is not None and \
-            #    bcrypt.check_password_hash(
-            #        registered_user.password, password
-            #        ):
-            if registered_user is not None:
+            if registered_user is not None and \
+                bcrypt.check_password_hash(
+                    registered_user.password, password):
                 login_user(registered_user, remember=remember_me)
                 flash('Login successful')
                 return redirect(request.args.get('next') or url_for('index'))
@@ -104,11 +107,6 @@ def logout():
     return redirect(url_for('index'))
 
 
-@app.before_request
-def before_request():
-    g.user = current_user
-
-
 @app.route('/s/')
 @app.route('/s', methods=['POST', 'GET'])
 def shorts():
@@ -119,8 +117,7 @@ def shorts():
         shorturl = form.shorturl.data
         form_is_valid = form.validate_on_submit()
         user_is_logged_in = (
-            g.user is not None and g.user.is_authenticated()
-            )
+            g.user is not None and g.user.is_authenticated())
 
         if form_is_valid:
             shorturl_query = Link.query.\
@@ -138,8 +135,6 @@ def shorts():
 
                 db.session.add(link)
                 db.session.commit()
-                # this below flash is not necessary cuz we already say so in a stylized header in shorts.html.
-                # flash('blomoLink ready to go!')
                 return render_template(
                     'shorts.html',
                     shorturl='{}s/{}'.format(request.url_root, link.shorturl),
@@ -159,9 +154,10 @@ def shorts_redirect(url):
         url_query = Link.query.filter_by(shorturl=url).first()
 
         if url_query is None:
+            return abort(404)
             #will need to take out this flash one 404 page is in place.
-            flash('Link not found')  # return abort(404)
-            return redirect(url_for('index'))
+            #flash('Link not found')
+            #return redirect(url_for('index'))
 
         else:
             click = Click(url_query.shorturl)
@@ -198,22 +194,21 @@ def profile(username):
         listOfLinksQuery = Link.query.\
             join(User, (User.id == Link.user_id)).\
             filter(User.username == user.username).\
-            order_by(Link.timestamp.desc())            
+            order_by(Link.timestamp.desc())
 
-        listOfFULLShortURL = [c.shorturl for c in listOfLinksQuery]
         listOfKeysShortURL = [c.shorturl for c in listOfLinksQuery]
         listOfLongURL = [c.longurl for c in listOfLinksQuery]
 
         totalClicksPerLink = []
-        for i in xrange(0, len(listOfFULLShortURL)):
+        for i in xrange(0, len(listOfKeysShortURL)):
             totalClicksPerLink.append(
                 int(Click.query.filter(
-                    Click.shorturl == listOfFULLShortURL[i]).count()))
+                    Click.shorturl == listOfKeysShortURL[i]).count()))
 
         # A list of total clicks for each short URL
         # Broken down by each day of the week, starting with the most recent
-        weeklyCounts = [[] for x in xrange(len(listOfFULLShortURL))]
-        for key, value in enumerate(listOfFULLShortURL):
+        weeklyCounts = [[] for x in xrange(len(listOfKeysShortURL))]
+        for key, value in enumerate(listOfKeysShortURL):
             for j in xrange(8):
                 weeklyCounts[key].append(
                     int(Click.query.
@@ -221,12 +216,12 @@ def profile(username):
                         filter(func.date(Click.timestamp) == daysAgo[j]).
                         count()))
 
-        listOfFULLShortURL = [str(request.url_root + 's/' + x)
-                          for x in listOfFULLShortURL]
+        listOfFullShortURL = [str(request.url_root + 's/' + x)
+                          for x in listOfKeysShortURL]
         listOfTimestamps = [datetime.date(link.timestamp) for link in links]
 
         masterList = zip(listOfLongURL,
-                         listOfFULLShortURL,
+                         listOfFullShortURL,
                          listOfKeysShortURL,
                          totalClicksPerLink,
                          weeklyCounts,
@@ -236,6 +231,3 @@ def profile(username):
                                title='Home',
                                user=g.user,
                                links=masterList)
-@app.errorhandler(404)
-def page_not_found(e):
-    return render_template('404.html'), 404

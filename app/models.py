@@ -1,4 +1,4 @@
-from app import db#, bcrypt
+from app import db, bcrypt
 import datetime
 
 
@@ -13,8 +13,7 @@ class User(db.Model):
 
     def __init__(self, username, password, email):
         self.username = username
-        self.password = password
-        #self.password = bcrypt.generate_password_hash(password)
+        self.password = bcrypt.generate_password_hash(password)
         self.email = email
         self.timestamp = datetime.datetime.utcnow()
 
@@ -40,7 +39,7 @@ class User(db.Model):
 class Link(db.Model):
     __tablename__ = "links"
     id = db.Column(db.Integer, primary_key = True)
-    longurl = db.Column(db.Text(65536), index=False)
+    longurl = db.Column(db.Text(), index=False)
     shorturl = db.Column(db.String(140), index=True, unique=True)
     timestamp = db.Column(db.DateTime())
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
@@ -58,7 +57,7 @@ class Link(db.Model):
             'longurl': self.longurl,
             'shorturl': self.shorturl,
             'timestamp': self.timestamp,
-        }   
+        }
 
 class Click(db.Model):
     __tablename__ = "clicks"
