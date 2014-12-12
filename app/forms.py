@@ -15,7 +15,7 @@ class ShortenForm(Form):
     longurl = StringField('Long url', 
         validators=[DataRequired(message=u'This field is required'),
                     URL(message=u'Please provide a properly formatted URL'),
-                    Length(max=1000, message=u'Please enter a shorter URL')])
+                    Length(max=10000, message=u'Please enter a shorter URL')])
     shorturl = StringField('Short name',
         validators=[DataRequired(message=u'This field is required'),
                     Regexp(regex=r'[A-Za-z0-9]',
