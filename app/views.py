@@ -44,11 +44,13 @@ def register():
                             form.email.data)
                 db.session.add(user)
                 db.session.commit()
-                flash('User successfully registered')
-                return redirect(url_for('login'))
+                login_user(user)
+                flash('Thanks for signing up! Now create your first blomoLink~')
+                return redirect(url_for('index'))
 
         else:
-            flash('Registration form is not complete')
+            # not sure if this alert is repetitive as we have "this field is required" warning
+            flash('Signup form is not complete')
             return render_template('registration.html', form=form)
 
     elif request.method == 'GET':
@@ -84,7 +86,7 @@ def login():
             #        ):
             if registered_user is not None:
                 login_user(registered_user, remember=remember_me)
-                flash('Logged in successfully')
+                flash('Login successful')
                 return redirect(request.args.get('next') or url_for('index'))
 
             else:
@@ -125,7 +127,7 @@ def shorts():
                 filter_by(shorturl=shorturl).first()
 
             if shorturl_query is not None:
-                flash('Link already exists. Choose again.')
+                flash('Link already exists. Try choosing another one.')
                 return redirect(url_for('index'))
 
             else:
@@ -136,10 +138,13 @@ def shorts():
 
                 db.session.add(link)
                 db.session.commit()
-                flash('Link successfully registered')
+                # this below flash is not necessary cuz we already say so in a stylized header in shorts.html.
+                # flash('blomoLink ready to go!')
                 return render_template(
                     'shorts.html',
-                    shorturl='{}s/{}'.format(request.url_root, link.shorturl))
+                    shorturl='{}s/{}'.format(request.url_root, link.shorturl),
+                    longurl=link.longurl,
+                    user=g.user)
 
         elif not form_is_valid:
             return render_template('index.html', form=form)
@@ -154,6 +159,7 @@ def shorts_redirect(url):
         url_query = Link.query.filter_by(shorturl=url).first()
 
         if url_query is None:
+            #will need to take out this flash one 404 page is in place.
             flash('Link not found')  # return abort(404)
             return redirect(url_for('index'))
 
@@ -194,19 +200,20 @@ def profile(username):
             filter(User.username == user.username).\
             order_by(Link.timestamp.desc())            
 
-        listOfShortURL = [c.shorturl for c in listOfLinksQuery]
+        listOfFULLShortURL = [c.shorturl for c in listOfLinksQuery]
+        listOfKeysShortURL = [c.shorturl for c in listOfLinksQuery]
         listOfLongURL = [c.longurl for c in listOfLinksQuery]
 
         totalClicksPerLink = []
-        for i in xrange(0, len(listOfShortURL)):
+        for i in xrange(0, len(listOfFULLShortURL)):
             totalClicksPerLink.append(
                 int(Click.query.filter(
-                    Click.shorturl == listOfShortURL[i]).count()))
+                    Click.shorturl == listOfFULLShortURL[i]).count()))
 
         # A list of total clicks for each short URL
         # Broken down by each day of the week, starting with the most recent
-        weeklyCounts = [[] for x in xrange(len(listOfShortURL))]
-        for key, value in enumerate(listOfShortURL):
+        weeklyCounts = [[] for x in xrange(len(listOfFULLShortURL))]
+        for key, value in enumerate(listOfFULLShortURL):
             for j in xrange(8):
                 weeklyCounts[key].append(
                     int(Click.query.
@@ -214,17 +221,21 @@ def profile(username):
                         filter(func.date(Click.timestamp) == daysAgo[j]).
                         count()))
 
-        listOfShortURL = [str(request.url_root + 's/' + x)
-                          for x in listOfShortURL]
+        listOfFULLShortURL = [str(request.url_root + 's/' + x)
+                          for x in listOfFULLShortURL]
         listOfTimestamps = [datetime.date(link.timestamp) for link in links]
+
         masterList = zip(listOfLongURL,
-                         listOfShortURL,
+                         listOfFULLShortURL,
+                         listOfKeysShortURL,
                          totalClicksPerLink,
                          weeklyCounts,
                          listOfTimestamps)
 
-        
         return render_template("user.html",
                                title='Home',
-                               user=user,
+                               user=g.user,
                                links=masterList)
+@app.errorhandler(404)
+def page_not_found(e):
+    return render_template('404.html'), 404

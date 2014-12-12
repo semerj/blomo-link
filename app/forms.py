@@ -13,21 +13,22 @@ class LoginForm(Form):
 
 class ShortenForm(Form):
     longurl = StringField('Long url', 
-        validators=[DataRequired(message=u'This field is required'), 
-                    URL(message=u'Please provide a properly formatted URL')])
+        validators=[DataRequired(message=u'This field is required'),
+                    URL(message=u'Please provide a properly formatted URL'),
+                    Length(max=10000, message=u'Please enter a shorter URL')])
     shorturl = StringField('Short name',
         validators=[DataRequired(message=u'This field is required'),
-                    Regexp(regex=r'[A-Za-z0-9]', 
+                    Regexp(regex=r'[A-Za-z0-9]',
                            message=u'Please use only alphanumeric characters')])
 
 class RegistrationForm(Form):
     username = StringField('New username',
-        validators=[DataRequired(message=u'This field is required'), 
+        validators=[DataRequired(message=u'This field is required'),
                     Length(min=4, max=20, message=u'Please enter at least 4 characters'),
                     Regexp(regex=r'[A-Za-z0-9]',
                            message=u'Please use only alphanumeric characters')])
     password = StringField('New password',
-        validators=[DataRequired(message=u'This field is required'), 
+        validators=[DataRequired(message=u'This field is required'),
                     Length(min=4, message=u'Please enter at least 4 characters')])
     email = StringField('Email',
         validators=[DataRequired(message=u'This field is required'),
