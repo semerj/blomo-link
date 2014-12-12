@@ -267,7 +267,7 @@
                 chartRangeMax: undefined,
                 chartRangeMinX: undefined,
                 chartRangeMaxX: undefined,
-                tooltipFormat: new SPFormat('<span style="color: {{color}}">&#9679;</span> {{prefix}}{{y}}{{suffix}}')
+                tooltipFormat: new SPFormat('<span style="color: {{color}}"></span> {{prefix}}{{y}}{{suffix}}')
             },
             // Defaults for bar charts
             bar: {
