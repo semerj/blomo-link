@@ -2331,6 +2331,7 @@ h1.top_heading {
 .littleXAXIS {
     float: left;
     padding-left: 5px;
+    margin: 0px;
 }
 
 /*diffed*/
