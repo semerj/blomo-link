@@ -40,7 +40,7 @@ class User(db.Model):
 class Link(db.Model):
     __tablename__ = "link"
     id = db.Column(db.Integer, primary_key = True)
-    longurl = db.Column(db.String(140), index=True)
+    longurl = db.Column(db.Text(65536), index=False)
     shorturl = db.Column(db.String(140), index=True, unique=True)
     timestamp = db.Column(db.DateTime())
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
