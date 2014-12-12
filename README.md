@@ -1,25 +1,25 @@
-# bitly-clone
+# Blomo.link
 
 ## Features
-* **User profiles:** Users can create accounts with usernames and passwords, and can also track the number of clicks per link. Users can also create links without having to create an account.
+* **User profiles:** Users can create accounts with usernames and passwords, and can also track the number of clicks per link. Users can also create links without having to create an account. Passwords are hashed with the `py-bcrypt` module.
 
-* **MySQL database:** We've implemented a MySQL database with two linked tables : `user` and `link`.
+* **Postgres/MySQL database:** We've implemented a local MySQL database with three linked tables : `users`, `links`, and `clicks`. For the Heroku app we're using Postgres.
 
 * **Wayback machine API integration:** When creating a link, users will also get a link to visit their url from a random point in the past.
 
 * **Mobile ready:** Yes.
 
 
-## Setup
+## Local Setup
 
 **0. Create virtualenv, clone repo/checkout branch, install requirements:**
 
 ```bash
 $ mkvirtualenv bitly
 
-$ git clone git@github.com:semerj/bitly-clone.git
-$ cd bitly-clone
-$ git checkout project_2
+$ git clone git@github.com:semerj/blomo-link.git
+$ cd blomo-link
+$ git checkout final
 
 $ pip install -r requirements.txt
 ```
@@ -49,9 +49,9 @@ $ sudo /usr/local/mysql/support-files/mysql.server start
 $ /etc/init.d/mysqld start
 ```
 
-**4. Execute run.py script:** 
+**4. Execute run.py script:**
 ```bash
-$ ./run.py
+$ ./app.py
 ```
 Then go to localhost:5000 (or 127.0.0.1:5000) in browser.
 
