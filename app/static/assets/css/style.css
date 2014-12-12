@@ -2241,7 +2241,11 @@ label {
 .site-footer {
     background: #7483AD;
     color: #fff;
-    padding: 10px 0;
+    padding: 2px 0;
+    position: fixed;
+    bottom: 0px;
+    width: 100%;
+    margin-top: 20px;
 }
 
 
@@ -2271,6 +2275,8 @@ label {
     padding-bottom: 20px;
     text-align: center;
     height: 70%;
+    width: 50%;
+    float: right;
 }
 
 @media (max-width: 455px) {
